@@ -1,0 +1,11 @@
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEditor.dll
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEngine.dll
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEngine.xml
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEditor.xml
+D:\Project\ActionGameProject\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+D:\Project\ActionGameProject\obj\Debug\UnityVS.ActionGameProject.CSharp.csprojResolveAssemblyReference.cache
+D:\Project\ActionGameProject\obj\Debug\Assembly-CSharp.dll
+D:\Project\ActionGameProject\obj\Debug\Assembly-CSharp.pdb
