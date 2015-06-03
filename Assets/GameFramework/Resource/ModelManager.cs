@@ -8,6 +8,8 @@ using System.Collections.Generic;
 //      场景中的都是它的副本
 //********************************************************
 
+public delegate void ModelLoaded(GameObject go);
+
 public class CModelManager : MonoBehaviour
 {
     private Dictionary<uint, GameObject> m_dictModel = new Dictionary<uint, GameObject>();
@@ -23,37 +25,33 @@ public class CModelManager : MonoBehaviour
 
     }
 
-    public void GetModel(uint uModelId, ResourceLoaded deleg)
+    public void GetModel(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad)
     {
         //查询是否已有实例化的样本
         GameObject goRes;
         if (m_dictModel.TryGetValue(uModelId, out goRes))
         {
             //拷贝副本
-            //goRes = GameObject.Instantiate(goRes);
+            goRes = GameObject.Instantiate(goRes);
 
             //返回结果
-            deleg(goRes, uModelId);
+            delegModelLoad(goRes);
         } 
         else
         {
             CResource res = SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(uModelId
                     , FinishLoadingModel);
-            res.OnResourceLoaded += deleg;
+            res.OnResourceLoaded += delegResLoad;
         }
     }
 
-    private void FinishLoadingModel(Object go, uint uResId)
-    //private void FinishLoadingModel(CResource res)
+    private void FinishLoadingModel(CResource res)
     {
-        GameObject gobj = go as GameObject;
-        //GameObject gobj = res.MainAsset as GameObject;
+        GameObject gobj = res.MainAsset as GameObject;
         if (gobj == null)
         {
             return;
         }
-
-        m_dictModel.Add(uResId, gobj);
-        //m_dictModel.Add(res.ResId, gobj);
+        m_dictModel.Add(res.ResId, gobj);
     }
 }

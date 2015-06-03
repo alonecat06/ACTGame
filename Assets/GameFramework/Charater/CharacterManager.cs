@@ -8,25 +8,25 @@ public enum CharaterType
     CharaterType_Monster,
 }
 
-public class CCharaterManager : MonoBehaviour {
+public class CCharacterManager : MonoBehaviour {
 
     //private GameObject m_uiRoot;
 
     //private Dictionary<int, GameObject> m_dictUIPanel = new Dictionary<int, GameObject>();
     //private Dictionary<int, uint> m_dictUIResId = new Dictionary<int, uint>();
 
-	void Start () 
-    {
+    //void Start () 
+    //{
 	
-	}
+    //}
 	
-	// Update is called once per frame
-	void Update () {
+    //// Update is called once per frame
+    //void Update () {
 	
-	}
+    //}
 
-    public void GetCharaterGameObject(uint uModelId, ResourceLoaded deleg)
+    public void GetCharacterGameObject(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad)
     {
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uModelId, deleg);
+        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uModelId, delegResLoad, delegModelLoad);
     }
 }

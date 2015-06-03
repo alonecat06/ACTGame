@@ -52,11 +52,9 @@ public class CUIManager : MonoBehaviour {
         }
     }
 
-    private void FinishLoadingUI(Object go, uint uResId)
-    //private void FinishLoadingUI(CResource Res)
+    private void FinishLoadingUI(CResource Res)
     {
-        GameObject gobj = go as GameObject;
-        //GameObject gobj = Res.MainAsset as GameObject;
+        GameObject gobj = Res.MainAsset as GameObject;
         if (gobj == null)
         {
             return;
@@ -68,7 +66,6 @@ public class CUIManager : MonoBehaviour {
         gobj.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
 
         m_dictUIPanel.Add(gobj.name.GetHashCode(), gobj);
-        m_dictUIResId.Add(gobj.name.GetHashCode(), uResId);
-        //m_dictUIResId.Add(gobj.name.GetHashCode(), Res.ResId);
+        m_dictUIResId.Add(gobj.name.GetHashCode(), Res.ResId);
     }
 }

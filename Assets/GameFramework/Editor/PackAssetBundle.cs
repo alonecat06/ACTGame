@@ -5,9 +5,10 @@ using System.IO;
 using UnityEditor;  
 
 public class PackAssetBundle : Editor
-{//打包单个  
-    [MenuItem("Custom Editor/Create AssetBunldes Main")]
-    static void CreateAssetBunldesMain()
+{
+    //打包单个  
+    [MenuItem("Custom Editor/Create AssetBunldes Selected")]
+    static void CreateAssetBunldesSelected()
     {
         //获取在Project视图中选择的所有游戏对象  
         Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
@@ -30,6 +31,27 @@ public class PackAssetBundle : Editor
         }
         //刷新编辑器  
         AssetDatabase.Refresh();
+    }
+
+    //打包资源总表
+    [MenuItem("Custom Editor/Create ResVer AssetBunlde")]
+    static void CreateResVerAssetBunldes()
+    {
+        Debug.Log("打包资源总表");
+    }
+
+    //打包配置表
+    [MenuItem("Custom Editor/Create Config AssetBunlde")]
+    static void CreateConfigAssetBunldes()
+    {
+        Debug.Log("打包配置表");
+    }
+
+    //打包资源
+    [MenuItem("Custom Editor/Create Resource AssetBunlde")]
+    static void CreateResourceAssetBunldes()
+    {
+        Debug.Log("打包资源");
     }
 
 //    [MenuItem("Custom Editor/Create AssetBunldes ALL")]

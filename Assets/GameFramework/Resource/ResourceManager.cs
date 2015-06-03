@@ -10,9 +10,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 class CResourceManager : MonoBehaviour
 {
+    //网上资源总表
+    private Dictionary<uint, uint> m_dictNetResVer = new Dictionary<uint, uint>();
+    //本地资源总表
+    private Dictionary<uint, uint> m_dictLocalResVer = new Dictionary<uint, uint>();
+
     //加载中的资源
     private Dictionary<uint, CResource> m_dictResLoading = new Dictionary<uint, CResource>();
 
@@ -21,10 +28,13 @@ class CResourceManager : MonoBehaviour
     //已加载好，自动删除的资源
     private List<CResource> m_listResAutoRelease = new List<CResource>();
 
-    //void Start()
-    //{
-    //    Initialize();
-    //}
+    //本地资源路径
+    private string m_strLocalResPath = Application.persistentDataPath;
+
+    void Start()
+    {
+        Initialize();
+    }
 
     void Update()
     {
@@ -53,20 +63,33 @@ class CResourceManager : MonoBehaviour
         UnInitialize();
     }
 
-    //public void Initialize()
-    //{
-    //    m_dictResManual = new Dictionary<uint, CResource>();
-    //    m_listResAutoRelease = new List<CResource>();
-    //}
+    public void Initialize()
+    {
+        //下载网上的资源总表
+
+        //加载本地的资源总表
+        FileStream fs = new FileStream(m_strLocalResPath + "ResVer.cfg", FileMode.Open);
+        StreamWrapper sw = new StreamWrapper(fs);
+        LoadResVerBinaryFile(sw, true);
+    }
 
     public void UnInitialize()
     {
+        m_dictNetResVer.Clear();
+        //保存最新的本地资源总表
+        m_dictLocalResVer.Clear();
+
+        foreach (KeyValuePair<uint, CResource> kvp in m_dictResLoading)
+        {
+            kvp.Value.CancelResourceLoading();
+        }
+        m_dictResLoading.Clear();
+
         for (int i = m_listResAutoRelease.Count - 1; i >= 0; --i)
         {
              m_listResAutoRelease[i].UnloadResource();
         }
         m_listResAutoRelease.Clear();
-
         foreach (KeyValuePair<uint, CResource> kvp in m_dictResManual)
         {
             kvp.Value.UnloadResource();
@@ -77,126 +100,121 @@ class CResourceManager : MonoBehaviour
     public CResource LoadResource(uint uResId
                                 , ResourceLoaded deleg)
     {
-        string strAssetPath;
-        ResourceMaintainType eMaintainType;
-        int iReqVer;
-        int iCacheTime;
-
-        #region 通过查找配置表实现，暂时硬编码
-        switch (uResId)
+        uint uReqVer;
+        if (!m_dictNetResVer.TryGetValue(uResId, out uReqVer))
         {
-            case 0:
-                {
-                    strAssetPath = GameMain.PathURL + "uiEnterGame.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_Manual;
-                    iCacheTime = 0;
-                }
-                break;
-            case 1:
-                {
-                    strAssetPath = GameMain.PathURL + "uiClientSelect.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_Manual;
-                    iCacheTime = 0;
-                }
-                break;
-            case 100:
-                {
-                    strAssetPath = GameMain.PathURL + "Player_1_male.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 101:
-                {
-                    strAssetPath = GameMain.PathURL + "Player_1_female.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 500:
-                {
-                    strAssetPath = GameMain.PathURL + "wp_blune04.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 600:
-                {
-                    strAssetPath = GameMain.PathURL + "Spear02.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 700:
-                {
-                    strAssetPath = GameMain.PathURL + "epic_shield3.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 800:
-                {
-                    strAssetPath = GameMain.PathURL + "epic_shield2.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 900:
-                {
-                    strAssetPath = GameMain.PathURL + "sky_01.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 901:
-                {
-                    strAssetPath = GameMain.PathURL + "sky_02.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 950:
-                {
-                    strAssetPath = GameMain.PathURL + "terrain01.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            case 951:
-                {
-                    strAssetPath = GameMain.PathURL + "terrain02.assetbundle";
-                    iReqVer = 0;
-                    eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
-                    iCacheTime = 0;
-                }
-                break;
-            default:
-                {
-                    Debug.LogError("没有相应编号的资源，编号为" + uResId);
-                    return null;
-                }
+            Debug.LogWarning("尝试获取旧资源，id：" + uResId);
         }
+
+        #region 通过查找配置表得到ResourceInfo实现，暂时硬编码
+        //string strAssetPath;
+        //ResourceMaintainType eMaintainType;
+        //int iCacheTime;
+        //switch (uResId)
+        //{
+        //    case 0:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "uiEnterGame.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_Manual;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 1:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "uiClientSelect.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_Manual;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 100:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "Player_1_male.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 101:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "Player_1_female.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 500:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "wp_blune04.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 600:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "Spear02.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 700:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "epic_shield3.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 800:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "epic_shield2.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 900:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "sky_01.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 901:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "sky_02.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 950:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "terrain01.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    case 951:
+        //        {
+        //            strAssetPath = GameMain.PathURL + "terrain02.assetbundle";
+        //            eMaintainType = ResourceMaintainType.ResourceMaintain_AutoRelease;
+        //            iCacheTime = 0;
+        //        }
+        //        break;
+        //    default:
+        //        {
+        //            Debug.LogError("没有相应编号的资源，编号为" + uResId);
+        //            return null;
+        //        }
+        //}
         #endregion
+        CResourceInfo resInfo = SingletonManager.Inst.GetManager<CConfigManager>().GetConfigProvider<ResourceInfoConfigProvider>().GetResourceInfo(uResId);
+        if (resInfo == null)
+        {
+            Debug.LogError("资源配置表中找不到配置信息，ResId为" + uResId);
+            return null;
+        }
 
         CResource res;
         if (!m_dictResLoading.TryGetValue(uResId, out res))
         {
-            res = new CResource(uResId
-                        , strAssetPath
-                        , iReqVer
-                        , eMaintainType
-                        , iCacheTime);
+            //res = new CResource(uResId, strAssetPath, uReqVer, eMaintainType, iCacheTime);
+            res = new CResource(resInfo, uReqVer);
             m_dictResLoading.Add(uResId, res);
             res.OnResourceLoaded += deleg;
             res.OnResourceLoadCancel += ResourceLoadCancle;
@@ -218,32 +236,46 @@ class CResourceManager : MonoBehaviour
 
     private IEnumerator LoadAssetBundle(CResource res)
     {
-        //WWW www = WWW.LoadFromCacheOrDownload(res.AssetPath, res.RequireResVer);
-        //yield return www;
-        WWW www = new WWW(res.AssetPath);
-        yield return www;
-
-        if (null != www)
+        if (IsLocalResUpToDate(res))
         {
-            if (null != www.error)
-            {
-                Debug.LogError(www.error);
-            }
-        }
+            //CompleteResourceLoading(www.assetBundle, res);
+        } 
         else
-        {
-            Debug.LogWarning("www is null--path" + res.AssetPath);
+        {//下载需要更新的资源
+            WWW www = new WWW(res.AssetPath);
+            yield return www;
+
+            if (null != www)
+            {
+                if (null != www.error)
+                {
+                    Debug.LogError(www.error);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("www is null--path" + res.AssetPath);
+            }
+
+            CompleteResourceLoading(www.assetBundle, res);
+            //将资源写入本地目录，并清理旧资源（如果有的话）
+
+            //更新本地资源总表版本号
         }
 
-        ResourceLoaded(www, res);
     }
 
-    private void ResourceLoaded(WWW www, CResource res)
+    private bool IsLocalResUpToDate(CResource res)
     {
-        res.AssetBundle = www.assetBundle;
+        //比对网络/本地资源总表看是否需要网络下载最新资源
+        return true;
+    }
+
+    private void CompleteResourceLoading(AssetBundle ab, CResource res)
+    {
+        res.AssetBundle = ab;
         res.IsLoaded = true;
-        //res.FinishResourceLoad();
-        res.InstantiateResource();
+        res.FinishResourceLoad();
 
         if (res.MaintainType == ResourceMaintainType.ResourceMaintain_Manual)
         {
@@ -260,5 +292,19 @@ class CResourceManager : MonoBehaviour
     private void ResourceLoadCancle(CResource Res)
     {
         m_dictResLoading.Remove(Res.ResId);
+    }
+
+    public bool LoadResVerBinaryFile(StreamWrapper stream, bool bIsLocal)
+    {
+        BinaryFormatter binFormat = new BinaryFormatter();
+        if (bIsLocal)
+        {
+            m_dictLocalResVer = (Dictionary<uint, uint>)binFormat.Deserialize(stream.GetStream());
+        } 
+        else
+        {
+            m_dictNetResVer = (Dictionary<uint, uint>)binFormat.Deserialize(stream.GetStream());
+        }
+        return true;
     }
 }

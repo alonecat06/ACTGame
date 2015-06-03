@@ -22,7 +22,7 @@ public class ActionAnimatorController
     private static int p_trgJump = Animator.StringToHash("trgJump");
     private static int p_bWalk = Animator.StringToHash("bWalk");
     private static int p_bRun = Animator.StringToHash("bRun");
-    private static int p_fMoveDirect = Animator.StringToHash("m_fMoveDirect");
+    //private static int p_fMoveDirect = Animator.StringToHash("m_fMoveDirect");
     private static int p_fLocalXDirect = Animator.StringToHash("fLocalXDirect");
     private static int p_fLocalZDirect = Animator.StringToHash("fLocalZDirect");
 

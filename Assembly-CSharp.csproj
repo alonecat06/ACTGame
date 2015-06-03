@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{9921C3A0-F750-A12A-CCB3-C89D3547BC0F}</ProjectGuid>
+	<ProjectGuid>{382C3E0C-41D6-9006-ED70-DCA114B7F865}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -51,14 +51,18 @@
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandFlockAI.cs" />
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandInput.cs" />
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionLogicController.cs" />
-     <Compile Include="Assets\GameFramework\Charater\CharaterManager.cs" />
+     <Compile Include="Assets\GameFramework\Charater\CharacterManager.cs" />
      <Compile Include="Assets\GameFramework\Charater\PlayerAppearanceController.cs" />
-     <Compile Include="Assets\GameFramework\Config\ConfigParser.cs" />
+     <Compile Include="Assets\GameFramework\Common\StreamWrapper.cs" />
+     <Compile Include="Assets\GameFramework\Config\ConfigFile.cs" />
+     <Compile Include="Assets\GameFramework\Config\ConfigManager.cs" />
+     <Compile Include="Assets\GameFramework\Config\ConfigProvider.cs" />
      <Compile Include="Assets\GameFramework\Global\GameMain.cs" />
      <Compile Include="Assets\GameFramework\Global\SingletonManager.cs" />
      <Compile Include="Assets\GameFramework\Input\InputManager.cs" />
      <Compile Include="Assets\GameFramework\Resource\ModelManager.cs" />
      <Compile Include="Assets\GameFramework\Resource\Resource.cs" />
+     <Compile Include="Assets\GameFramework\Resource\ResourceInfo.cs" />
      <Compile Include="Assets\GameFramework\Resource\ResourceManager.cs" />
      <Compile Include="Assets\GameFramework\Scene\SceneManager.cs" />
      <Compile Include="Assets\GameFramework\UI\ClientSelectUI.cs" />

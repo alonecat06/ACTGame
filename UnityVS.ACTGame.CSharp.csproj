@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BEEF6D01-13DC-4A72-1903-191251F658AB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Web v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WebPlayer:6</UnityBuildTarget>
     <UnityVersion>5.0.0f4</UnityVersion>
@@ -59,14 +61,18 @@
     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandFlockAI.cs" />
     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandInput.cs" />
     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionLogicController.cs" />
-    <Compile Include="Assets\GameFramework\Charater\CharaterManager.cs" />
+    <Compile Include="Assets\GameFramework\Charater\CharacterManager.cs" />
     <Compile Include="Assets\GameFramework\Charater\PlayerAppearanceController.cs" />
-    <Compile Include="Assets\GameFramework\Config\ConfigParser.cs" />
+    <Compile Include="Assets\GameFramework\Common\StreamWrapper.cs" />
+    <Compile Include="Assets\GameFramework\Config\ConfigFile.cs" />
+    <Compile Include="Assets\GameFramework\Config\ConfigManager.cs" />
+    <Compile Include="Assets\GameFramework\Config\ConfigProvider.cs" />
     <Compile Include="Assets\GameFramework\Global\GameMain.cs" />
     <Compile Include="Assets\GameFramework\Global\SingletonManager.cs" />
     <Compile Include="Assets\GameFramework\Input\InputManager.cs" />
     <Compile Include="Assets\GameFramework\Resource\ModelManager.cs" />
     <Compile Include="Assets\GameFramework\Resource\Resource.cs" />
+    <Compile Include="Assets\GameFramework\Resource\ResourceInfo.cs" />
     <Compile Include="Assets\GameFramework\Resource\ResourceManager.cs" />
     <Compile Include="Assets\GameFramework\Scene\SceneManager.cs" />
     <Compile Include="Assets\GameFramework\UI\ClientSelectUI.cs" />

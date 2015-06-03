@@ -8,9 +8,7 @@ public enum ResourceMaintainType
     ResourceMaintain_Manual,
 }
 
-public delegate void ResourceLoaded(Object go, uint uResId);
-//public delegate void ResourceLoadCancle(uint uResId);
-//public delegate void ResourceLoaded(CResource Res);
+public delegate void ResourceLoaded(CResource Res);
 public delegate void ResourceLoadCancel(CResource Res);
 
 public class CResource
@@ -38,10 +36,10 @@ public class CResource
         set { m_AssetBundle = value; }
     }
 
-    private int m_iRequireResVer;
-    public int RequireResVer
+    private uint m_uRequireResVer;
+    public uint RequireResVer
     {
-        get { return m_iRequireResVer; }
+        get { return m_uRequireResVer; }
         //set { m_iRequireResVer = value; }
     }
 
@@ -66,15 +64,26 @@ public class CResource
 
     public CResource(uint uResId
                     , string strAssetPath
-                    , int iReqVer
+                    , uint uReqVer
                     , ResourceMaintainType eMaintainType
                     , int iCacheTime)
     {
         m_uResId = uResId;
         m_strAssetPath = strAssetPath;
-        m_iRequireResVer = iReqVer;
+        m_uRequireResVer = uReqVer;
         m_eMaintainType = eMaintainType;
         m_fReleaseTime = Time.time + (float)iCacheTime;
+
+        IsLoaded = false;
+    }
+
+    public CResource(CResourceInfo resInfo, uint uReqVer)
+    {
+        m_uResId = resInfo.uResId;
+        m_strAssetPath = resInfo.strResName;
+        m_uRequireResVer = uReqVer;
+        m_eMaintainType = resInfo.eMaintainType;
+        m_fReleaseTime = Time.time + (float)resInfo.iCacheTime;
 
         IsLoaded = false;
     }
@@ -91,23 +100,18 @@ public class CResource
         return true;
     }
 
-    //public void FinishResourceLoad()
-    //{
-    //    OnResourceLoaded(this);
-    //}
-    //public void CancelResourceLoad()
-    //{
-    //    OnResourceLoaded(this);
-    //}
-
-    //public void LoadAsset()
-    //{
-    //    m_AssetBundle.LoadAssetAsync()
-    //}
-
-    public void InstantiateResource()
+    public bool CancelResourceLoading()
     {
-        UnityEngine.Object obj = m_AssetBundle.mainAsset;
-        OnResourceLoaded(obj, ResId);
+        OnResourceLoadCancel(this);
+        return true;
+    }
+
+    public void FinishResourceLoad()
+    {
+        OnResourceLoaded(this);
+    }
+    public void CancelResourceLoad()
+    {
+        OnResourceLoaded(this);
     }
 }

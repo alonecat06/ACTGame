@@ -14,9 +14,10 @@ class SingletonManager
 
         //获取各种管理类的引用
         m_dictManager.Add(typeof(CResourceManager), goWorld.GetComponent<CResourceManager>());
+        m_dictManager.Add(typeof(CConfigManager), goWorld.GetComponent<CConfigManager>());
         m_dictManager.Add(typeof(CUIManager), goWorld.GetComponent<CUIManager>());
         m_dictManager.Add(typeof(CModelManager), goWorld.GetComponent<CModelManager>());
-        m_dictManager.Add(typeof(CCharaterManager), goWorld.GetComponent<CCharaterManager>());
+        m_dictManager.Add(typeof(CCharacterManager), goWorld.GetComponent<CCharacterManager>());
         m_dictManager.Add(typeof(CSceneManager), goWorld.GetComponent<CSceneManager>());
         m_dictManager.Add(typeof(CInputManager), goWorld.GetComponent<CInputManager>());
     }

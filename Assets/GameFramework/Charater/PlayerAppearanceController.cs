@@ -46,24 +46,27 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goRHandWeapon);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uWeaponId, LoadedWeapon);
+        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uWeaponId, LoadedWeaponRes, SetWeapon);
     }
-    private void LoadedWeapon(Object obj, uint uRes)
+    private void LoadedWeaponRes(CResource res)
     {
-        GameObject goCharater = obj as GameObject;
-        if (goCharater == null)
+        GameObject goWeapon = res.MainAsset as GameObject;
+        if (goWeapon == null)
         {
-            Debug.LogError("加载不了主角：" + uRes);
+            Debug.LogError("加载不了武器：" + res.ResId);
         }
-        goCharater = GameObject.Instantiate(goCharater);
+        goWeapon = GameObject.Instantiate(goWeapon);
 
-        //将角色放在位子上
-        goCharater.transform.SetParent(m_goMountRHandWeapon.transform);
-        goCharater.transform.localPosition = new Vector3(0, 0, 0);
-        goCharater.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        goCharater.transform.localScale = new Vector3(1, 1, 1);
+        SetWeapon(goWeapon);
+    }
+    private void SetWeapon(GameObject goWeapon)
+    {
+        goWeapon.transform.SetParent(m_goMountRHandWeapon.transform);
+        goWeapon.transform.localPosition = new Vector3(0, 0, 0);
+        goWeapon.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        goWeapon.transform.localScale = new Vector3(1, 1, 1);
 
-        m_goRHandWeapon = goCharater;
+        m_goRHandWeapon = goWeapon;
     }
 
     public void ChangeShield(uint uShield)
@@ -73,18 +76,20 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goLHandShield);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShield, LoadedShield);
+        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShield, LoadedShieldRes, SetShield);
     }
-    private void LoadedShield(Object obj, uint uRes)
+    private void LoadedShieldRes(CResource res)
     {
-        GameObject goShield = obj as GameObject;
+        GameObject goShield = res.MainAsset as GameObject;
         if (goShield == null)
         {
-            Debug.LogError("加载不了主角：" + uRes);
+            Debug.LogError("加载不了主角：" + res.ResId);
         }
         goShield = GameObject.Instantiate(goShield);
-
-        //将角色放在位子上
+        SetShield(goShield);
+    }
+    private void SetShield(GameObject goShield)
+    {
         goShield.transform.SetParent(m_goMountLHandShield.transform);
         goShield.transform.localPosition = new Vector3(0, 0, 0);
         goShield.transform.localRotation = new Quaternion(0, 0, 0, 1);
@@ -100,18 +105,21 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goLArmShield);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShoulderArmor, LoadedShoulderArmor);
+        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShoulderArmor, LoadedShoulderArmor, SetShoulderArmor);
     }
-    private void LoadedShoulderArmor(Object obj, uint uRes)
+    private void LoadedShoulderArmor(CResource res)
     {
-        GameObject goShoulderArmor = obj as GameObject;
+        GameObject goShoulderArmor = res.MainAsset as GameObject;
         if (goShoulderArmor == null)
         {
-            Debug.LogError("加载不了ShoulderArm：" + uRes);
+            Debug.LogError("加载不了ShoulderArm：" + res.MainAsset);
         }
         goShoulderArmor = GameObject.Instantiate(goShoulderArmor);
 
-        //将角色放在位子上
+        SetShoulderArmor(goShoulderArmor);
+    }
+    private void SetShoulderArmor(GameObject goShoulderArmor)
+    {
         goShoulderArmor.transform.SetParent(m_goMountLArmShield.transform);
         goShoulderArmor.transform.localPosition = new Vector3(0, 0, 0);
         goShoulderArmor.transform.localRotation = new Quaternion(0, 0, 0, 1);

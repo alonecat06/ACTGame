@@ -45,9 +45,11 @@ public class CSceneManager : MonoBehaviour
         }
     }
 
-    private void FinishLoadingSkyBox(Object obj, uint uResId)
+    //private void FinishLoadingSkyBox(Object obj, uint uResId)
+    private void FinishLoadingSkyBox(CResource res)
     {
-        Material mat = obj as Material;
+        //Material mat = obj as Material;
+        Material mat = res.MainAsset as Material;
         if (mat == null)
         {
             return;
@@ -57,7 +59,8 @@ public class CSceneManager : MonoBehaviour
     }
 
     //场景所有东西加载完成都回调
-    private void FinishSceneLoading(Object obj, uint uResId)
+    //private void FinishSceneLoading(Object obj, uint uResId)
+    private void FinishSceneLoading(CResource res)
     {
 
     }

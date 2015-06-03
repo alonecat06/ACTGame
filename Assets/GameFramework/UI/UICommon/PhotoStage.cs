@@ -23,7 +23,7 @@ class PhotoStage : MonoBehaviour
             Destroy(m_goCharaterModel);
 
         //从角色管理器异步获得引用
-        SingletonManager.Inst.GetManager<CCharaterManager>().GetCharaterGameObject(uModelId, LoadedCharaterToStage);
+        SingletonManager.Inst.GetManager<CCharacterManager>().GetCharacterGameObject(uModelId, LoadedCharaterRes, SetCharacterToStage);
 
         return true;
     }
@@ -33,28 +33,29 @@ class PhotoStage : MonoBehaviour
         return m_goCharaterModel;
     }
 
-    private void LoadedCharaterToStage(Object obj, uint uRes)
-    //private void LoadedCharaterToStage(CResource res)
+    private void LoadedCharaterRes(CResource res)
     {
-        //Object objCopy = Object.Instantiate(obj);
-        //GameObject goCharater = objCopy as GameObject;
+        Object objCopy = Object.Instantiate(res.MainAsset);
+        GameObject goCharacter = objCopy as GameObject;
 
-        GameObject goCharater = obj as GameObject;
-        if (goCharater == null)
+        if (goCharacter == null)
         {
-            Debug.LogError("加载不了主角：" + uRes);
-            //Debug.LogError("加载不了主角：" + res.ResId);
+            Debug.LogError("加载不了主角：" + res.ResId);
         } 
-        goCharater = GameObject.Instantiate(goCharater);
+        goCharacter = GameObject.Instantiate(goCharacter);
 
-        //将角色放在位子上
-        goCharater.transform.SetParent(m_goCharaterPos.transform);
-        goCharater.transform.localPosition = new Vector3(0, 0, 0);
-        goCharater.transform.localRotation = new Quaternion(0, 0, 0, 1);
-        goCharater.transform.localScale = new Vector3(1, 1, 1);
+        SetCharacterToStage(goCharacter);
+    }
 
-        Destroy(goCharater.GetComponent<CharacterController>());
+    private void SetCharacterToStage(GameObject goCharacter)
+    {
+        goCharacter.transform.SetParent(m_goCharaterPos.transform);
+        goCharacter.transform.localPosition = new Vector3(0, 0, 0);
+        goCharacter.transform.localRotation = new Quaternion(0, 0, 0, 1);
+        goCharacter.transform.localScale = new Vector3(1, 1, 1);
 
-        m_goCharaterModel = goCharater;
+        Destroy(goCharacter.GetComponent<CharacterController>());
+
+        m_goCharaterModel = goCharacter;
     }
 }
