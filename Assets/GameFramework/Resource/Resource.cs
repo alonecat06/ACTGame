@@ -22,12 +22,24 @@ public class CResource
         get { return m_uResId; }
     }
 
-    private string m_strAssetPath;
-    public string AssetPath
+    private string m_strResName;
+    public string ResourceName
     {
-        get { return m_strAssetPath; }
-        //set { m_strAssetPath = value; }
+        get { return m_strResName; }
     }
+
+    private string m_strResPath;
+    public string ResourcePath
+    {
+        get { return m_strResPath; }
+    }
+
+    //private string m_strAssetPath;
+    //public string AssetPath
+    //{
+    //    get { return m_strAssetPath; }
+    //    //set { m_strAssetPath = value; }
+    //}
 
     private AssetBundle m_AssetBundle;
     public AssetBundle AssetBundle
@@ -62,25 +74,26 @@ public class CResource
         get { return m_fReleaseTime; }
     }
 
-    public CResource(uint uResId
-                    , string strAssetPath
-                    , uint uReqVer
-                    , ResourceMaintainType eMaintainType
-                    , int iCacheTime)
-    {
-        m_uResId = uResId;
-        m_strAssetPath = strAssetPath;
-        m_uRequireResVer = uReqVer;
-        m_eMaintainType = eMaintainType;
-        m_fReleaseTime = Time.time + (float)iCacheTime;
+    //public CResource(uint uResId
+    //                , string strAssetPath
+    //                , uint uReqVer
+    //                , ResourceMaintainType eMaintainType
+    //                , int iCacheTime)
+    //{
+    //    m_uResId = uResId;
+    //    m_strAssetPath = strAssetPath;
+    //    m_uRequireResVer = uReqVer;
+    //    m_eMaintainType = eMaintainType;
+    //    m_fReleaseTime = Time.time + (float)iCacheTime;
 
-        IsLoaded = false;
-    }
+    //    IsLoaded = false;
+    //}
 
     public CResource(CResourceInfo resInfo, uint uReqVer)
     {
         m_uResId = resInfo.uResId;
-        m_strAssetPath = resInfo.strResName;
+        m_strResName = resInfo.strResName;
+        m_strResPath = resInfo.strResPath;
         m_uRequireResVer = uReqVer;
         m_eMaintainType = resInfo.eMaintainType;
         m_fReleaseTime = Time.time + (float)resInfo.iCacheTime;

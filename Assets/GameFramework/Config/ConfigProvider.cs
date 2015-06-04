@@ -2,8 +2,17 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class IConfigProvider 
+public abstract class IConfigProvider
 {
+    public abstract string ConfigProvidePath
+    {
+        get;
+    }
+    public abstract string ConfigProvideName
+    {
+        get;
+    }
+
     public virtual bool LoadBinaryFile(StreamWrapper stream)
     {
         return false;

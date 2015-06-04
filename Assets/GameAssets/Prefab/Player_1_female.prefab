@@ -1190,7 +1190,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 196528}
-  m_LocalRotation: {x: .586029291, y: .781879723, z: .210322082, w: .0316000991}
+  m_LocalRotation: {x: .586029232, y: .781879604, z: .210322052, w: .0316000953}
   m_LocalPosition: {x: 10.0105753, y: -12.6846838, z: 53.4009247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1933,9 +1933,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 173552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d1b2b9f176b8584095507320ae54c67, type: 3}
+  m_Script: {fileID: 11500000, guid: b9834515db64d1f4c94ef20f88224161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_goMountRHandWeapon: {fileID: 136650}
+  m_goMountLHandShield: {fileID: 133836}
+  m_goMountLArmShield: {fileID: 133680}
 --- !u!114 &11486058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1944,12 +1947,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 173552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bc6a2262eaeaa841a5e17446a5aaa1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 071ab6f190bea2b40951b475384e92cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_goMountRHandWeapon: {fileID: 136650}
-  m_goMountLHandShield: {fileID: 133836}
-  m_goMountLArmShield: {fileID: 133680}
 --- !u!137 &13709042
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

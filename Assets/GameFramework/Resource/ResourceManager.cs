@@ -29,12 +29,12 @@ class CResourceManager : MonoBehaviour
     private List<CResource> m_listResAutoRelease = new List<CResource>();
 
     //本地资源路径
-    private string m_strLocalResPath = Application.persistentDataPath;
+    private string m_strLocalResPath = Application.persistentDataPath ;
 
-    void Start()
-    {
-        Initialize();
-    }
+    //void Start()
+    //{
+    //    Initialize();
+    //}
 
     void Update()
     {
@@ -68,7 +68,7 @@ class CResourceManager : MonoBehaviour
         //下载网上的资源总表
 
         //加载本地的资源总表
-        FileStream fs = new FileStream(m_strLocalResPath + "ResVer.cfg", FileMode.Open);
+        FileStream fs = new FileStream(GlobalDef.s_LocalFileRootPath + GlobalDef.s_ResVerName, FileMode.Open);
         StreamWrapper sw = new StreamWrapper(fs);
         LoadResVerBinaryFile(sw, true);
     }
@@ -76,7 +76,7 @@ class CResourceManager : MonoBehaviour
     public void UnInitialize()
     {
         m_dictNetResVer.Clear();
-        //保存最新的本地资源总表
+        SaveResVerFile();
         m_dictLocalResVer.Clear();
 
         foreach (KeyValuePair<uint, CResource> kvp in m_dictResLoading)
@@ -224,6 +224,11 @@ class CResourceManager : MonoBehaviour
         return res;
     }
 
+    private void ResourceLoadCancle(CResource Res)
+    {
+        m_dictResLoading.Remove(Res.ResId);
+    }
+
     public void UnloadResource(uint uResId)
     {
         CResource cResForRemove;
@@ -238,11 +243,14 @@ class CResourceManager : MonoBehaviour
     {
         if (IsLocalResUpToDate(res))
         {
-            //CompleteResourceLoading(www.assetBundle, res);
+            WWW www = new WWW(GlobalDef.s_LocalFileRootPath + res.ResourcePath + res.ResourceName);
+            yield return www;
+
+            CompleteResourceLoading(www.assetBundle, res);
         } 
         else
         {//下载需要更新的资源
-            WWW www = new WWW(res.AssetPath);
+            WWW www = new WWW(GlobalDef.s_FileServerUrl + res.ResourcePath + res.ResourceName);
             yield return www;
 
             if (null != www)
@@ -254,21 +262,28 @@ class CResourceManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("www is null--path" + res.AssetPath);
+                Debug.LogWarning("www is null--path" + res.ResourcePath + res.ResourceName);
             }
 
             CompleteResourceLoading(www.assetBundle, res);
             //将资源写入本地目录，并清理旧资源（如果有的话）
-
+            UpdateLocalResource(res.ResourcePath, res.ResourceName, new StreamWrapper(www.bytes));
             //更新本地资源总表版本号
+            UpdateLocalResVer(res.ResId, res.RequireResVer);
         }
 
     }
 
     private bool IsLocalResUpToDate(CResource res)
     {
-        //比对网络/本地资源总表看是否需要网络下载最新资源
-        return true;
+        if (m_dictLocalResVer.ContainsKey(res.ResId))
+        {
+            return res.RequireResVer <= m_dictLocalResVer[res.ResId];
+        } 
+        else
+        {
+            return false;
+        }
     }
 
     private void CompleteResourceLoading(AssetBundle ab, CResource res)
@@ -289,9 +304,26 @@ class CResourceManager : MonoBehaviour
         m_dictResLoading.Remove(res.ResId);
     }
 
-    private void ResourceLoadCancle(CResource Res)
+    private bool UpdateLocalResource(string path, string name, StreamWrapper swResource)
     {
-        m_dictResLoading.Remove(Res.ResId);
+        using (FileStream fs = new FileStream(path + "//" + name, FileMode.Create))
+        {
+            StreamWrapper sw = new StreamWrapper(fs);
+            sw.Write(swResource);
+            sw.Close();
+        }
+
+        return false;
+    }
+
+    private bool UpdateLocalResVer(uint uResId, uint uVerId)
+    {
+        if (m_dictLocalResVer.ContainsKey(uResId))
+        {
+            m_dictLocalResVer[uResId] = uVerId;
+            return true;
+        }
+        return false;
     }
 
     public bool LoadResVerBinaryFile(StreamWrapper stream, bool bIsLocal)
@@ -305,6 +337,17 @@ class CResourceManager : MonoBehaviour
         {
             m_dictNetResVer = (Dictionary<uint, uint>)binFormat.Deserialize(stream.GetStream());
         }
+        return true;
+    }
+
+    public bool SaveResVerFile()
+    {
+        using (FileStream fs = new FileStream(GlobalDef.s_LocalFileRootPath + "/" + GlobalDef.s_ResVerName, FileMode.Create))
+        {
+            BinaryFormatter binFormat = new BinaryFormatter();
+            binFormat.Serialize(fs, m_dictLocalResVer);
+        }
+
         return true;
     }
 }

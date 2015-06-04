@@ -27,12 +27,12 @@ public class GameMain : MonoBehaviour {
         }
 
         //添加各种管理类
-        gameObject.AddComponent<CResourceManager>();
-        gameObject.AddComponent<CConfigManager>();
+        gameObject.AddComponent<CResourceManager>().Initialize();
+        gameObject.AddComponent<CConfigManager>().Initialize();
         gameObject.AddComponent<CUIManager>().SetUIRoot(m_uiRoot);
         gameObject.AddComponent<CModelManager>();
         gameObject.AddComponent<CCharacterManager>();
-        gameObject.AddComponent<CSceneManager>();
+        gameObject.AddComponent<CSceneManager>().Initialize();
         gameObject.AddComponent<CInputManager>();
 
         //加载第一个界面

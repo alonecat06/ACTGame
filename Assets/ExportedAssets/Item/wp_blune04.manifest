@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 4151570368
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 17ccc847352406e8448654abb4cc9125
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2177d791fe324b86f1b1efc7669175a7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameAssets/Prefab/wp_blune04.prefab
+Dependencies: []

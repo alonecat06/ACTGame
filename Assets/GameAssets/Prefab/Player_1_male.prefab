@@ -2477,12 +2477,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 188668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bc6a2262eaeaa841a5e17446a5aaa1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 071ab6f190bea2b40951b475384e92cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_goMountRHandWeapon: {fileID: 175344}
-  m_goMountLHandShield: {fileID: 163458}
-  m_goMountLArmShield: {fileID: 183110}
 --- !u!114 &11483552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2491,9 +2488,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 188668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9305fcefd8af92844b413a8e377fb336, type: 3}
+  m_Script: {fileID: 11500000, guid: b9834515db64d1f4c94ef20f88224161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_goMountRHandWeapon: {fileID: 175344}
+  m_goMountLHandShield: {fileID: 163458}
+  m_goMountLArmShield: {fileID: 183110}
 --- !u!137 &13702044
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

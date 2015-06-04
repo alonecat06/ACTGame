@@ -1,0 +1,9 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: uientergame
+      Dependencies: {}
+    Info_1:
+      Name: uiclientselect
+      Dependencies: {}

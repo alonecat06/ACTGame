@@ -68,6 +68,7 @@
     <Compile Include="Assets\GameFramework\Config\ConfigManager.cs" />
     <Compile Include="Assets\GameFramework\Config\ConfigProvider.cs" />
     <Compile Include="Assets\GameFramework\Global\GameMain.cs" />
+    <Compile Include="Assets\GameFramework\Global\GlobalDef.cs" />
     <Compile Include="Assets\GameFramework\Global\SingletonManager.cs" />
     <Compile Include="Assets\GameFramework\Input\InputManager.cs" />
     <Compile Include="Assets\GameFramework\Resource\ModelManager.cs" />

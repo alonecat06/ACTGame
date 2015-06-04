@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class SingletonManager
+public class SingletonManager
 {
     private Dictionary<Type, MonoBehaviour> m_dictManager;
 

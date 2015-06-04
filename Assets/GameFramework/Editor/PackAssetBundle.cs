@@ -37,119 +37,155 @@ public class PackAssetBundle : Editor
     [MenuItem("Custom Editor/Create ResVer AssetBunlde")]
     static void CreateResVerAssetBunldes()
     {
-        Debug.Log("打包资源总表");
+        using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResVer.csv", FileMode.Open))
+        {
+            ConfigFile cf = new ConfigFile();
+            if (cf.ConstructConfigFile(fs, "gb2312"))
+            {
+                ResVerConfigProvider cpResVer = new ResVerConfigProvider();
+                cpResVer.LoadTextFile(cf);
+
+                FileStream bs = new FileStream(Application.dataPath + "/ExportedAssets/" + GlobalDef.s_ResVerName, FileMode.Create);
+                StreamWrapper sw = new StreamWrapper(bs);
+                cpResVer.GenerateBinaryFile(sw);
+                sw.Close();
+                Debug.Log("完成资源总表打包");
+            }
+            else
+            {
+                Debug.LogError("资源总表打包失败，请检查表格");
+            }
+            fs.Close();
+        }
     }
 
     //打包配置表
     [MenuItem("Custom Editor/Create Config AssetBunlde")]
     static void CreateConfigAssetBunldes()
     {
-        Debug.Log("打包配置表");
+        //SingletonManager.Inst.GetManager<CConfigManager>().PackConfigFile();
+        CConfigManager mgrConfig = new CConfigManager();
+        mgrConfig.Initialize();
+        mgrConfig.PackConfigFile();
+        Debug.Log("完成所有配总表打包");
     }
 
     //打包资源
     [MenuItem("Custom Editor/Create Resource AssetBunlde")]
     static void CreateResourceAssetBunldes()
     {
-        Debug.Log("打包资源");
+        //得到资源配置表
+        ResourceInfoConfigProvider cpResInfo = new ResourceInfoConfigProvider();
+        bool bResInfoLoad = false;
+        using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResourceInfo.csv", FileMode.Open))
+        {
+            ConfigFile cf = new ConfigFile();
+            if (cf.ConstructConfigFile(fs, "gb2312"))
+            {
+                bResInfoLoad = cpResInfo.LoadTextFile(cf);
+            }
+            fs.Close();
+        }
+
+        if (bResInfoLoad)
+        {
+            List<AssetBundleBuild> listUI = new List<AssetBundleBuild>();
+            List<AssetBundleBuild> listCharacter = new List<AssetBundleBuild>();
+            List<AssetBundleBuild> listItem = new List<AssetBundleBuild>();
+            List<AssetBundleBuild> listScene = new List<AssetBundleBuild>();
+
+            //根据资源配置表进行打包
+            Dictionary<uint, CResourceInfo>.Enumerator iter = cpResInfo.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                AssetBundleBuild abb = new AssetBundleBuild();
+                abb.assetBundleName = iter.Current.Value.strResName;
+                abb.assetNames = new string[] { "Assets/GameAssets/Prefab/" + iter.Current.Value.strResName + ".prefab" };
+
+                if (iter.Current.Value.strResPath.Contains("UI"))
+                {
+                    listUI.Add(abb);
+                }
+                else if (iter.Current.Value.strResPath.Contains("Character"))
+                {
+                    listCharacter.Add(abb);
+                }
+                else if (iter.Current.Value.strResPath.Contains("Item"))
+                {
+                    listItem.Add(abb);
+                }
+                else if (iter.Current.Value.strResPath.Contains("Scene"))
+                {
+                    listScene.Add(abb);
+                }
+            }
+
+            BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/UI", listUI.ToArray());
+            BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/Character", listCharacter.ToArray());
+            BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/Item", listItem.ToArray());
+            BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/Scene", listScene.ToArray());
+        }
+
+        //AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+        //buildMap[0].assetBundleName = "epic_shield3";
+        //string[] heroAssets1 = new string[1];
+        //heroAssets1[0] = "Assets/GameAssets/Prefab/epic_shield3.prefab";
+        //buildMap[0].assetNames = heroAssets1;
+        //buildMap[0].assetBundleVariant = "abc";
+        //BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/aa", buildMap);
+
+        //BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/aa");
+
+        Debug.Log("完成打包资源");
     }
 
-//    [MenuItem("Custom Editor/Create AssetBunldes ALL")]
-//    static void CreateAssetBunldesALL()
-//    {
-//        Caching.CleanCache();
-//        string Path = Application.dataPath + "/StreamingAssets/ALL.assetbundle";
-//        Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
 
-//        foreach (Object obj in SelectedAsset)
-//        {
-//            Debug.Log("Create AssetBunldes name :" + obj);
-//        }
+    //// 设置assetbundle的名字(修改meta文件)
+    //[MenuItem("Tools/SetAssetBundleName")]
+    //static void OnSetAssetBundleName()
+    //{
 
-//        //这里注意第二个参数就行  
-//        if (BuildPipeline.BuildAssetBundle(null, SelectedAsset, Path))
-//        {
-//            AssetDatabase.Refresh();
-//        }
-//    }
+    //    UnityEngine.Object obj = Selection.activeObject;
+    //    string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 
-//    [MenuItem("Custom Editor/Create Scene")]
-//    static void CreateSceneALL()
-//    {
-//        //清空一下缓存  
-//        Caching.CleanCache();
-//        string Path = Application.dataPath + "/MyScene.unity3d";
-//        string[] levels = { "Assets/Level.unity" };
-//        //打包场景  
-//        BuildPipeline.BuildPlayer(levels, Path, BuildTarget.WebPlayer, BuildOptions.BuildAdditionalStreamedScenes);
-//        AssetDatabase.Refresh();
-//    }
+    //    string[] extList = new string[] { ".prefab.meta", ".png.meta", ".jpg.meta", ".tga.meta" };
+    //    EditorUtil.Walk(path, extList, DoSetAssetBundleName);
 
-//    [MenuItem("Custom Editor/Build Assetbundle")]
-//    static private void BuildAssetBundle()
-//    {
-//        string dir = Application.dataPath + "/StreamingAssets";
+    //    //刷新编辑器
+    //    AssetDatabase.Refresh();
+    //    Debug.Log("AssetBundleName修改完毕");
+    //}
+    //static void DoSetAssetBundleName(string path)
+    //{
+    //    path = path.Replace("\\", "/");
+    //    int index = path.IndexOf(EditorConfig.PREFAB_PATH);
+    //    string relativePath = path.Substring(path.IndexOf(EditorConfig.PREFAB_PATH) + EditorConfig.PREFAB_PATH.Length);
+    //    string prefabName = relativePath.Substring(0, relativePath.IndexOf('.')) + EditorConfig.ASSETBUNDLE;
+    //    StreamReader fs = new StreamReader(path);
+    //    List<string> ret = new List<string>();
+    //    string line;
+    //    while ((line = fs.ReadLine()) != null)
+    //    {
+    //        line = line.Replace("\n", "");
+    //        if (line.IndexOf("assetBundleName:") != -1)
+    //        {
+    //            line = "  assetBundleName: " + prefabName.ToLower();
 
-//        if (!Directory.Exists(dir))
-//        {
-//            Directory.CreateDirectory(dir);
-//        }
-//        DirectoryInfo rootDirInfo = new DirectoryInfo(Application.dataPath + "/Atlas");
-//        foreach (DirectoryInfo dirInfo in rootDirInfo.GetDirectories())
-//        {
-//            List<Sprite> assets = new List<Sprite>();
-//            string path = dir + "/" + dirInfo.Name + ".assetbundle";
-//            foreach (FileInfo pngFile in dirInfo.GetFiles("*.png", SearchOption.AllDirectories))
-//            {
-//                string allPath = pngFile.FullName;
-//                string assetPath = allPath.Substring(allPath.IndexOf("Assets"));
-//                assets.Add(Resources.LoadAssetAtPath<Sprite>(assetPath));
-//            }
-//            if (BuildPipeline.BuildAssetBundle(null
-//                                                , assets.ToArray()
-//                                                , path
-//                                                , BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.CollectDependencies
-//                                                , GetBuildTarget()))
-//            {
-//            }
-//        }
-//    }
+    //        }
+    //        ret.Add(line);
+    //    }
+    //    fs.Close();
 
-//    static private BuildTarget GetBuildTarget()
-//    {
-//        BuildTarget target = BuildTarget.WebPlayer;
-//#if UNITY_STANDALONE
-//            target = BuildTarget.StandaloneWindows;
-//#elif UNITY_IPHONE
-//            target = BuildTarget.iPhone;
-//#elif UNITY_ANDROID
-//            target = BuildTarget.Android;
-//#endif
-//        return target;
-//    }
+    //    File.Delete(path);
 
-//    [MenuItem("Custom Editor/Build AssetBundle From Selection - Track dependencies")]
-//    static void ExportResource()
-//    {
-//        // Bring up save panel
-//        string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "unity3d");
-//        if (path.Length != 0)
-//        {
-//            // Build the resource file from the active selection.
-//            Object[] selection = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
-//            BuildPipeline.BuildAssetBundle(Selection.activeObject, selection, path, 0);
-//            Selection.objects = selection;
-//        }
-//    }
-//    [MenuItem("Custom Editor/Build AssetBundle From Selection - No dependency tracking")]
-//    static void ExportResourceNoTrack()
-//    {
-//        // Bring up save panel
-//        string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "unity3d");
-//        if (path.Length != 0)
-//        {
-//            // Build the resource file from the active selection.
-//            BuildPipeline.BuildAssetBundle(Selection.activeObject, Selection.objects, path);
-//        }
-//    }
+    //    StreamWriter writer = new StreamWriter(path + ".tmp");
+    //    foreach (var each in ret)
+    //    {
+    //        writer.WriteLine(each);
+    //    }
+    //    writer.Close();
+
+    //    File.Copy(path + ".tmp", path);
+    //    File.Delete(path + ".tmp");
+    //}
 }

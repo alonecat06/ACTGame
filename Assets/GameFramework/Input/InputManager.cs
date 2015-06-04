@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class CInputManager : MonoBehaviour 
 {
-	void Start ()
-    {
+    //void Start ()
+    //{
 	
-	}
+    //}
 }

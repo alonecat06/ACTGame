@@ -1,0 +1,9 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: player_1_male
+      Dependencies: {}
+    Info_1:
+      Name: player_1_female
+      Dependencies: {}

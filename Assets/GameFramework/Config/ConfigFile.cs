@@ -49,10 +49,16 @@ public class ConfigFile
                         sl.Add(i, arr[i]);
                 }
 
-                if (m_iRow == 1)
+                IDictionaryEnumerator ienum = sl.GetEnumerator();
+                while (ienum.MoveNext())
+                {
+                    listRow.Add(ienum.Value.ToString().Replace("'", "\""));
+                }
+
+                if (m_iRow == 0)
                 {
                     m_iColumn = sl.Count;
-                } 
+                }
                 else
                 {
                     if (sl.Count != m_iColumn)
@@ -62,11 +68,6 @@ public class ConfigFile
                     }
                 }
 
-                IDictionaryEnumerator ienum = sl.GetEnumerator();
-                while (ienum.MoveNext())
-                {
-                    listRow.Add(ienum.Value.ToString().Replace("'", "\""));
-                }
                 sl.Clear();
                 src = string.Empty;
             }

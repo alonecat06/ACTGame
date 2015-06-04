@@ -9,6 +9,7 @@ public class CResourceInfo : ISerializable
 {
     public uint uResId;
     public string strResName;
+    public string strResPath;
     public ResourceMaintainType eMaintainType;
     public int iCacheTime;
 
@@ -41,9 +42,19 @@ public class ResourceInfoConfigProvider : IConfigProvider
         ResourceInfoColumn_ResName = 1,
         ResourceInfoColumn_MaintainType = 2,
         ResourceInfoColumn_CacheTime = 3,
+        ResourceInfoColumn_ResPath = 4,
     };
 
     private Dictionary<uint, CResourceInfo> m_dictData = new Dictionary<uint, CResourceInfo>();
+
+    public override string ConfigProvidePath
+    {
+        get { return ""; }
+    }
+    public override string ConfigProvideName
+    {
+        get { return "ResourceInfo"; }
+    }
 
     public CResourceInfo GetResourceInfo(uint uResId)
     {
@@ -73,6 +84,7 @@ public class ResourceInfoConfigProvider : IConfigProvider
             resInfo.strResName = file.GetContent(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResName);
             resInfo.eMaintainType = (ResourceMaintainType)file.GetIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_MaintainType);
             resInfo.iCacheTime = file.GetIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_CacheTime);
+            resInfo.strResPath = file.GetContent(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResPath);
 
             m_dictData.Add(resInfo.uResId, resInfo);
         }
@@ -86,5 +98,10 @@ public class ResourceInfoConfigProvider : IConfigProvider
         binFormat.Serialize(stream.GetStream(), m_dictData);
 
         return true;
+    }
+
+    public Dictionary<uint, CResourceInfo>.Enumerator GetEnumerator()
+    {
+        return m_dictData.GetEnumerator();
     }
 }

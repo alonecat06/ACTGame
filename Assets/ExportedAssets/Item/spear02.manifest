@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 478576780
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7c712dc881752a0dea7c87c181bb2f2d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2177d791fe324b86f1b1efc7669175a7
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameAssets/Prefab/Spear02.prefab
+Dependencies: []

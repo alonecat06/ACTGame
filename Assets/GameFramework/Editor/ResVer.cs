@@ -14,6 +14,15 @@ public class ResVerConfigProvider : IConfigProvider
 
     private Dictionary<uint, uint> m_dictData = new Dictionary<uint, uint>();
 
+    public override string ConfigProvidePath
+    {
+        get { return ""; }
+    }
+    public override string ConfigProvideName
+    {
+        get { return "ResVer"; }
+    }
+
     public override bool LoadTextFile(ConfigFile file)
     {
         int iRowCount = file.GetRow();

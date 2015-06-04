@@ -1,0 +1,15 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: epic_shield2
+      Dependencies: {}
+    Info_1:
+      Name: epic_shield3
+      Dependencies: {}
+    Info_2:
+      Name: wp_blune04
+      Dependencies: {}
+    Info_3:
+      Name: spear02
+      Dependencies: {}

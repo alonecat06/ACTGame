@@ -14,16 +14,16 @@ public class CModelManager : MonoBehaviour
 {
     private Dictionary<uint, GameObject> m_dictModel = new Dictionary<uint, GameObject>();
 
-    void Start()
-    {
+    //void Start()
+    //{
 
-    }
+    //}
 
-    // Update is called once per frame
-    void Update()
-    {
+    //// Update is called once per frame
+    //void Update()
+    //{
 
-    }
+    //}
 
     public void GetModel(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad)
     {

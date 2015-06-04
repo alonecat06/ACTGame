@@ -6,14 +6,21 @@ public class CSceneManager : MonoBehaviour
 {
     private GameObject m_goSceneRoot;
 
-	void Start () 
+    //void Start () 
+    //{
+    //}
+
+    public bool Initialize()
     {
         m_goSceneRoot = GameObject.Find("Scene");
         if (m_goSceneRoot == null)
         {
             Debug.LogError("场景根节点为空");
+            return false;
         }
-	}
+
+        return true;
+    }
 
     public void LoadScene(int iSceneId)
     {

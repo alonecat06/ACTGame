@@ -102,6 +102,15 @@ public class StreamWrapper
 
         m_stream.Write(uDate, 0, uDate.Length);
     }
+    public void Write(StreamWrapper sw)
+    {
+        if (m_stream == null || null == sw)
+        {
+            return;
+        }
+
+        m_stream.Write(sw.m_byte, 0, sw.m_byte.Length);
+    }
 
     public int ReadInt(ref int uDate)
     {

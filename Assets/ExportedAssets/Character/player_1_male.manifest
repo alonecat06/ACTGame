@@ -1,0 +1,44 @@
+ManifestFileVersion: 0
+CRC: 1759075838
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1f44270d19b97465994e9736574e658a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1695ea08c1247a5b97b92b57a5670a55
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 071ab6f190bea2b40951b475384e92cd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b9834515db64d1f4c94ef20f88224161, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 143
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameAssets/Prefab/Player_1_male.prefab
+Dependencies: []
