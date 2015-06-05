@@ -8,7 +8,8 @@ using System.Collections.Generic;
 //    UIId_ClientSelect,
 //}
 
-public class CUIManager : MonoBehaviour {
+public class CUIManager : Singletone//MonoBehaviour 
+{
 
     private GameObject m_uiRoot;
 
@@ -29,9 +30,12 @@ public class CUIManager : MonoBehaviour {
         m_uiRoot = goUiRoot;
     }
 
-    public void LoadUI(uint uUIId)
+    public CResource LoadUI(uint uUIId, LoadAnimation eLoadAnimation)
     {
-        SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(uUIId
+        //显示加载动画
+        SingletonManager.Inst.GameMain.OpenLoadingAnimation(eLoadAnimation);
+
+        return SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(uUIId
             , FinishLoadingUI);
     }
     public void UnloadUI(int iUINameHashCode)
@@ -54,6 +58,8 @@ public class CUIManager : MonoBehaviour {
 
     private void FinishLoadingUI(CResource Res)
     {
+        SingletonManager.Inst.GameMain.CloseLoadingAnimation();
+
         GameObject gobj = Res.MainAsset as GameObject;
         if (gobj == null)
         {

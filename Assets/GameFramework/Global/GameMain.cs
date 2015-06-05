@@ -2,23 +2,18 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class GameMain : MonoBehaviour {
+public enum LoadAnimation
+{
+    LoadAnimation_WholeScreen,
+    LoadAnimation_Icon,
+}
 
-    //不同平台下StreamingAssets的路径是不同的，这里需要注意一下。  
-    public static readonly string PathURL =
-#if UNITY_ANDROID   //安卓  
-        "jar:file://" + Application.dataPath + "!/assets/";  
-#elif UNITY_IPHONE  //iPhone  
-        Application.dataPath + "/Raw/";  
-#elif UNITY_STANDALONE_WIN || UNITY_EDITOR  //windows平台和web平台
-        "file://" + Application.dataPath + "/StreamingAssets/";
-#else  
-        string.Empty;  
-#endif 
-
+public class GameMain : MonoBehaviour 
+{
     public GameObject m_uiRoot;
 
-    // Use this for initialization
+    private LoadingUI m_LoadingUI;
+
     void Start()
     {
         if (m_uiRoot == null)
@@ -26,16 +21,43 @@ public class GameMain : MonoBehaviour {
             Debug.LogError("UI摄像机为空，严重错误");
         }
 
-        //添加各种管理类
-        gameObject.AddComponent<CResourceManager>().Initialize();
-        gameObject.AddComponent<CConfigManager>().Initialize();
-        gameObject.AddComponent<CUIManager>().SetUIRoot(m_uiRoot);
-        gameObject.AddComponent<CModelManager>();
-        gameObject.AddComponent<CCharacterManager>();
-        gameObject.AddComponent<CSceneManager>().Initialize();
-        gameObject.AddComponent<CInputManager>();
+        GameObject goLoadingUI = GameObject.Find("goLoadingUI");
+        if (goLoadingUI != null)
+        {
+            m_LoadingUI = goLoadingUI.GetComponent<LoadingUI>();
+        }
 
+        //管理类初始化
+        SingletonManager.Inst.Initialize(this);
+        //显示加载进度画面
+        OpenLoadingAnimation(LoadAnimation.LoadAnimation_WholeScreen);
+    }
+
+    void Update()
+    {
+        SingletonManager.Inst.Update();
+    }
+
+    void OnApplicationQuit()
+    {
+        SingletonManager.Inst.Uninitialize();
+    }
+
+
+    public void LoadFirstUI()
+    {
         //加载第一个界面
-        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(0);
+        CResource res = SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
+    }
+
+    public void OpenLoadingAnimation(LoadAnimation eLoadAnimation)
+    {
+        m_LoadingUI.SetLoadAnimation(eLoadAnimation);
+
+    }
+
+    public void CloseLoadingAnimation()
+    {
+        m_LoadingUI.CloseLoading();
     }
 }

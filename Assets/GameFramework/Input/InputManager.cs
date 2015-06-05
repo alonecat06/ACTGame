@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CInputManager : MonoBehaviour 
+public class CInputManager : Singletone//MonoBehaviour 
 {
     //void Start ()
     //{

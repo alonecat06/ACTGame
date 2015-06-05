@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 public delegate void ModelLoaded(GameObject go);
 
-public class CModelManager : MonoBehaviour
+public class CModelManager : Singletone//MonoBehaviour
 {
     private Dictionary<uint, GameObject> m_dictModel = new Dictionary<uint, GameObject>();
 

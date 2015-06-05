@@ -3,9 +3,6 @@ using System.Collections;
 
 public class EnterGameUI : MonoBehaviour
 {
-    private WWW m_bundle;
-
-	// Use this for initialization
     void Start()
     {
         GameObject btnClient = GameObject.Find("btnClient");
@@ -23,7 +20,7 @@ public class EnterGameUI : MonoBehaviour
 
     private void OnClickClientBtn(GameObject go)
     {
-        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1);
+        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_Icon);
         SingletonManager.Inst.GetManager<CUIManager>().UnloadUI(gameObject.name.GetHashCode());
     }
 

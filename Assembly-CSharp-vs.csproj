@@ -53,6 +53,7 @@
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionLogicController.cs" />
      <Compile Include="Assets\GameFramework\Charater\CharacterManager.cs" />
      <Compile Include="Assets\GameFramework\Charater\PlayerAppearanceController.cs" />
+     <Compile Include="Assets\GameFramework\Common\CoroutineManager.cs" />
      <Compile Include="Assets\GameFramework\Common\StreamWrapper.cs" />
      <Compile Include="Assets\GameFramework\Config\ConfigFile.cs" />
      <Compile Include="Assets\GameFramework\Config\ConfigManager.cs" />
@@ -68,9 +69,11 @@
      <Compile Include="Assets\GameFramework\Scene\SceneManager.cs" />
      <Compile Include="Assets\GameFramework\UI\ClientSelectUI.cs" />
      <Compile Include="Assets\GameFramework\UI\EnterGameUI.cs" />
+     <Compile Include="Assets\GameFramework\UI\LoadingUI.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\PhotoStage.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\UIManager.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\UUIEventListener.cs" />
+     <None Include="Assets\ExportedAssets\crossdomain.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

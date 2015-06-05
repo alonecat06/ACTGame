@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CSceneManager : MonoBehaviour 
+public class CSceneManager : Singletone//MonoBehaviour 
 {
     private GameObject m_goSceneRoot;
 
@@ -10,7 +10,7 @@ public class CSceneManager : MonoBehaviour
     //{
     //}
 
-    public bool Initialize()
+    public override bool Initialize()
     {
         m_goSceneRoot = GameObject.Find("Scene");
         if (m_goSceneRoot == null)
@@ -24,6 +24,9 @@ public class CSceneManager : MonoBehaviour
 
     public void LoadScene(int iSceneId)
     {
+        //显示加载动画
+        SingletonManager.Inst.GameMain.OpenLoadingAnimation(LoadAnimation.LoadAnimation_WholeScreen);
+
         if (iSceneId == 1)
         {
             //界面切换到过场加载界面
@@ -69,6 +72,6 @@ public class CSceneManager : MonoBehaviour
     //private void FinishSceneLoading(Object obj, uint uResId)
     private void FinishSceneLoading(CResource res)
     {
-
+        SingletonManager.Inst.GameMain.CloseLoadingAnimation();
     }
 }

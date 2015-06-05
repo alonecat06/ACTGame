@@ -74,20 +74,22 @@ public class CResource
         get { return m_fReleaseTime; }
     }
 
-    //public CResource(uint uResId
-    //                , string strAssetPath
-    //                , uint uReqVer
-    //                , ResourceMaintainType eMaintainType
-    //                , int iCacheTime)
-    //{
-    //    m_uResId = uResId;
-    //    m_strAssetPath = strAssetPath;
-    //    m_uRequireResVer = uReqVer;
-    //    m_eMaintainType = eMaintainType;
-    //    m_fReleaseTime = Time.time + (float)iCacheTime;
+    public CResource(uint uResId
+                    , string strResName
+                    , string strResPath
+                    , uint uReqVer
+                    , ResourceMaintainType eMaintainType
+                    , int iCacheTime)
+    {
+        m_uResId = uResId;
+        m_strResName = strResName;
+        m_strResPath = strResPath;
+        m_uRequireResVer = uReqVer;
+        m_eMaintainType = eMaintainType;
+        m_fReleaseTime = Time.time + (float)iCacheTime;
 
-    //    IsLoaded = false;
-    //}
+        IsLoaded = false;
+    }
 
     public CResource(CResourceInfo resInfo, uint uReqVer)
     {

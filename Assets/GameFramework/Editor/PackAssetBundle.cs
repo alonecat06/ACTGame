@@ -6,49 +6,66 @@ using UnityEditor;
 
 public class PackAssetBundle : Editor
 {
-    //打包单个  
-    [MenuItem("Custom Editor/Create AssetBunldes Selected")]
-    static void CreateAssetBunldesSelected()
-    {
-        //获取在Project视图中选择的所有游戏对象  
-        Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
+    ////打包单个  
+    //[MenuItem("Custom Editor/Create AssetBunldes Selected")]
+    //static void CreateAssetBunldesSelected()
+    //{
+    //    //获取在Project视图中选择的所有游戏对象  
+    //    Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
 
-        //遍历所有的游戏对象  
-        foreach (Object obj in SelectedAsset)
-        {
-            //本地测试：建议最后将Assetbundle放在StreamingAssets文件夹下，如果没有就创建一个，因为移动平台下只能读取这个路径  
-            //StreamingAssets是只读路径，不能写入  
-            //服务器下载：就不需要放在这里，服务器上客户端用www类进行下载。  
-            string targetPath = Application.dataPath + "/Asset/" + obj.name + ".unity3d";
-            if (BuildPipeline.BuildAssetBundle(obj, null, targetPath))
-            {
-                Debug.Log(obj.name + "资源打包成功");
-            }
-            else
-            {
-                Debug.Log(obj.name + "资源打包失败");
-            }
-        }
-        //刷新编辑器  
-        AssetDatabase.Refresh();
-    }
+    //    //遍历所有的游戏对象  
+    //    foreach (Object obj in SelectedAsset)
+    //    {
+    //        //本地测试：建议最后将Assetbundle放在StreamingAssets文件夹下，如果没有就创建一个，因为移动平台下只能读取这个路径  
+    //        //StreamingAssets是只读路径，不能写入  
+    //        //服务器下载：就不需要放在这里，服务器上客户端用www类进行下载。  
+    //        string targetPath = Application.dataPath + "/Asset/" + obj.name + ".unity3d";
+    //        if (BuildPipeline.BuildAssetBundle(obj, null, targetPath))
+    //        {
+    //            Debug.Log(obj.name + "资源打包成功");
+    //        }
+    //        else
+    //        {
+    //            Debug.Log(obj.name + "资源打包失败");
+    //        }
+    //    }
+    //    //刷新编辑器  
+    //    AssetDatabase.Refresh();
+    //}
 
     //打包资源总表
     [MenuItem("Custom Editor/Create ResVer AssetBunlde")]
     static void CreateResVerAssetBunldes()
     {
-        using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResVer.csv", FileMode.Open))
+        using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/" + GlobalDef.s_ResVerName + ".csv", FileMode.Open))
         {
             ConfigFile cf = new ConfigFile();
             if (cf.ConstructConfigFile(fs, "gb2312"))
             {
+                //编译为二进制文件
                 ResVerConfigProvider cpResVer = new ResVerConfigProvider();
                 cpResVer.LoadTextFile(cf);
 
-                FileStream bs = new FileStream(Application.dataPath + "/ExportedAssets/" + GlobalDef.s_ResVerName, FileMode.Create);
+                FileStream bs = new FileStream(Application.dataPath + "/GameAssets/Config/Binary/" + GlobalDef.s_ResVerName + ".bytes", FileMode.Create);
                 StreamWrapper sw = new StreamWrapper(bs);
                 cpResVer.GenerateBinaryFile(sw);
                 sw.Close();
+
+                //加入到资产数据库
+                Object obj = AssetDatabase.LoadMainAssetAtPath("Assets/GameAssets/Config/Binary/" + GlobalDef.s_ResVerName + ".bytes");
+                if (obj == null)
+                {
+                    Debug.LogWarning("Cann't Find File--Assets/GameAssets/Config/Binary/" + GlobalDef.s_ResVerName + ".bytes");
+                    return;
+                }
+                //进行资产打包
+                AssetBundleBuild[] arrABB = new AssetBundleBuild[1];
+                AssetBundleBuild abb = new AssetBundleBuild();
+                abb.assetBundleName = GlobalDef.s_ResVerName;
+                abb.assetNames = new string[] { "Assets/GameAssets/Config/Binary/" + GlobalDef.s_ResVerName + ".bytes" };
+                arrABB[0] = abb;
+                BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets", arrABB);
+
                 Debug.Log("完成资源总表打包");
             }
             else
@@ -67,7 +84,7 @@ public class PackAssetBundle : Editor
         CConfigManager mgrConfig = new CConfigManager();
         mgrConfig.Initialize();
         mgrConfig.PackConfigFile();
-        Debug.Log("完成所有配总表打包");
+        Debug.Log("完成所有配表打包");
     }
 
     //打包资源

@@ -8,7 +8,8 @@ public enum CharaterType
     CharaterType_Monster,
 }
 
-public class CCharacterManager : MonoBehaviour {
+public class CCharacterManager : Singletone//MonoBehaviour 
+{
 
     //private GameObject m_uiRoot;
 

@@ -4,16 +4,12 @@ using System.Collections;
 
 public class ClientSelectUI : MonoBehaviour 
 {
-    //public Material skies;
-
     PhotoStage psSinglePlayer;
-    //RawImage imgPhotoPlayer;
 
     private bool m_bTakeWeapon = true;
     private bool m_bTakeShield = true;
     private bool m_bTakeShoulderArmor = true;
 
-    // Use this for initialization
 	void Start () 
     {
         SetupOnClickListener("btnMale", OnClickMaleBtn);
@@ -38,20 +34,7 @@ public class ClientSelectUI : MonoBehaviour
                     Debug.LogError("没有得到PhotoStage脚本");
                 }
             }
-        }
-
-        //if (imgPhotoPlayer == null)
-        //{
-        //    GameObject temp = GameObject.Find("RawImage");
-        //    if (temp != null)
-        //    {
-        //        imgPhotoPlayer = temp.GetComponent<RawImage>();
-        //        if (psSinglePlayer == null)
-        //        {
-        //            Debug.LogError("没有得到RawImage脚本");
-        //        }
-        //    }
-        //}        
+        }     
     }
 
     private void SetupOnClickListener(string strCtrlName, UUIEventListener.VoidDelegate deleg)

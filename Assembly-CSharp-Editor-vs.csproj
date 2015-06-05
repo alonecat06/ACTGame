@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\GameFramework\Editor\PackAssetBundle.cs" />
      <Compile Include="Assets\GameFramework\Editor\ResVer.cs" />
+     <None Include="Assets\ExportedAssets\crossdomain.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

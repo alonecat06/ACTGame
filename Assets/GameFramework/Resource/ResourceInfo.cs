@@ -55,6 +55,10 @@ public class ResourceInfoConfigProvider : IConfigProvider
     {
         get { return "ResourceInfo"; }
     }
+    public override uint ResId
+    {
+        get { return 5001; }
+    }
 
     public CResourceInfo GetResourceInfo(uint uResId)
     {

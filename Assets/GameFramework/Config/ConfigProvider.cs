@@ -12,6 +12,10 @@ public abstract class IConfigProvider
     {
         get;
     }
+    public abstract uint ResId
+    {
+        get;
+    }
 
     public virtual bool LoadBinaryFile(StreamWrapper stream)
     {

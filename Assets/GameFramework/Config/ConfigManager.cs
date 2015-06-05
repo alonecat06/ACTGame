@@ -3,30 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using UnityEditor;
 
-public class CConfigManager : MonoBehaviour 
+public class CConfigManager : Singletone//MonoBehaviour 
 {
-    Dictionary<Type, IConfigProvider> m_dictConfigProvider = new Dictionary<Type, IConfigProvider>();
+    Dictionary<Type, uint> m_dictCPType = new Dictionary<Type, uint>();
+    Dictionary<uint, IConfigProvider> m_dictConfigProvider = new Dictionary<uint, IConfigProvider>();
 
-    //void Start()
-    //{
-    //    Initialize();
-    //}
-
-    public bool Initialize()
+    public override bool Initialize()
     {
-        m_dictConfigProvider.Add(typeof(ResourceInfoConfigProvider), new ResourceInfoConfigProvider());
+        //IConfigProvider cp = new ResourceInfoConfigProvider();
+        //m_dictCPType.Add(typeof(ResourceInfoConfigProvider), cp.ResId);
+        //m_dictConfigProvider.Add(cp.ResId, cp);
+
+        LoadAllBinaryFile();
+
         return true;
     }
 
     public T GetConfigProvider<T>() where T : IConfigProvider
     {
-        return m_dictConfigProvider[typeof(T)] as T;
+        return m_dictConfigProvider[m_dictCPType[typeof(T)]] as T;
     }
 
     public void PackConfigFile()
     {
-        Dictionary<Type, IConfigProvider>.Enumerator iter = m_dictConfigProvider.GetEnumerator();
+        Dictionary<uint, IConfigProvider>.Enumerator iter = m_dictConfigProvider.GetEnumerator();
         while (iter.MoveNext())
         {
             IConfigProvider cp = iter.Current.Value;
@@ -37,7 +39,7 @@ public class CConfigManager : MonoBehaviour
                 {
                     cp.LoadTextFile(cf);
 
-                    FileStream bs = new FileStream(Application.dataPath + "/ExportedAssets/Config/" + cp.ConfigProvidePath + cp.ConfigProvideName + ".cfg", FileMode.OpenOrCreate);
+                    FileStream bs = new FileStream(Application.dataPath + "/GameAssets/Config/Binary/" + cp.ConfigProvideName + ".bytes", FileMode.Create);
                     StreamWrapper sw = new StreamWrapper(bs);
                     cp.GenerateBinaryFile(sw);
                     sw.Close();
@@ -49,12 +51,59 @@ public class CConfigManager : MonoBehaviour
                 }
 
                 fs.Close();
+
+                //加入到资产数据库
+                UnityEngine.Object obj = AssetDatabase.LoadMainAssetAtPath("Assets/GameAssets/Config/Binary/" + cp.ConfigProvideName + ".bytes");
+                if (obj == null)
+                {
+                    Debug.LogWarning("Cann't Find File--Assets/GameAssets/Config/Binary/" + cp.ConfigProvideName + ".bytes");
+                    return;
+                }
+                //进行资产打包
+                AssetBundleBuild[] arrABB = new AssetBundleBuild[1];
+                AssetBundleBuild abb = new AssetBundleBuild();
+                abb.assetBundleName = cp.ConfigProvideName;
+                abb.assetNames = new string[] { "Assets/GameAssets/Config/Binary/" + cp.ConfigProvideName + ".bytes" };
+                arrABB[0] = abb;
+                BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/Config/" + cp.ConfigProvidePath, arrABB);
             }
         }
     }
 
     public void LoadAllBinaryFile()
     {
+        Dictionary<uint, IConfigProvider>.Enumerator iter = m_dictConfigProvider.GetEnumerator();
+        while (iter.MoveNext())
+        {
+            IConfigProvider cp = iter.Current.Value;
 
+            CResource res = SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(cp.ResId
+                    , FinishLoadingConfig);
+        }
+    }
+
+    public void FinishLoadingConfig(CResource res)
+    {
+        object[] txt = res.AssetBundle.LoadAllAssets(typeof(TextAsset));
+        if (null != txt)
+        {
+            if (txt.Length == 1)
+            {
+                foreach (object obj in txt)
+                {
+                    if (obj.GetType() == typeof(TextAsset))
+                    {
+                        TextAsset tt = obj as TextAsset;
+                        StreamWrapper sw = new StreamWrapper(tt.bytes);
+                        
+                        IConfigProvider cp;
+                        if (m_dictConfigProvider.TryGetValue(res.ResId, out cp))
+                        {
+                            cp.LoadBinaryFile(sw);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
