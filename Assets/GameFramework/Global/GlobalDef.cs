@@ -20,6 +20,8 @@ public class GlobalDef
     public static string s_FileServerPort = "1234";
     public static string s_FileServerUrl = "http://" + GlobalDef.s_FileServerIP + ":" + GlobalDef.s_FileServerPort + "/";
     public static string s_ResVerName = "ResVer";
+    public static string s_ResourceInfoName = "ResourceInfo";
+    public static uint s_ResourceInfoResId = 0;
 
     public static string s_LocalFileRootPath = 
 #if UNITY_ANDROID   //安卓  
@@ -27,7 +29,7 @@ public class GlobalDef
 #elif UNITY_IPHONE  //iPhone  
         Application.persistentDataPath + "/";  
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR  //windows平台和web平台
-        "file://" + Application.persistentDataPath + "/";
+        "file:///" + Application.persistentDataPath + "/";
         //Application.persistentDataPath + "/";
 #else  
         string.Empty;  

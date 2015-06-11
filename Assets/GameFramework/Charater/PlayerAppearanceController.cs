@@ -46,11 +46,14 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goRHandWeapon);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uWeaponId, LoadedWeaponRes, SetWeapon);
+        if (uWeaponId != 0)
+        {
+            SingletonManager.Inst.GetManager<CModelManager>().GetModel(uWeaponId, LoadedWeaponRes, SetWeapon);
+        }
     }
     private void LoadedWeaponRes(CResource res)
     {
-        GameObject goWeapon = res.MainAsset as GameObject;
+        GameObject goWeapon = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goWeapon == null)
         {
             Debug.LogError("加载不了武器：" + res.ResId);
@@ -76,11 +79,14 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goLHandShield);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShield, LoadedShieldRes, SetShield);
+        if (uShield != 0)
+        {
+            SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShield, LoadedShieldRes, SetShield);
+        }
     }
     private void LoadedShieldRes(CResource res)
     {
-        GameObject goShield = res.MainAsset as GameObject;
+        GameObject goShield = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goShield == null)
         {
             Debug.LogError("加载不了主角：" + res.ResId);
@@ -105,14 +111,17 @@ public class PlayerAppearanceController : MonoBehaviour {
             Destroy(m_goLArmShield);
         }
 
-        SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShoulderArmor, LoadedShoulderArmor, SetShoulderArmor);
+        if (uShoulderArmor != 0)
+        {
+            SingletonManager.Inst.GetManager<CModelManager>().GetModel(uShoulderArmor, LoadedShoulderArmor, SetShoulderArmor);
+        }
     }
     private void LoadedShoulderArmor(CResource res)
     {
-        GameObject goShoulderArmor = res.MainAsset as GameObject;
+        GameObject goShoulderArmor = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goShoulderArmor == null)
         {
-            Debug.LogError("加载不了ShoulderArm：" + res.MainAsset);
+            Debug.LogError("加载不了ShoulderArm：" + res.ResId);
         }
         goShoulderArmor = GameObject.Instantiate(goShoulderArmor);
 

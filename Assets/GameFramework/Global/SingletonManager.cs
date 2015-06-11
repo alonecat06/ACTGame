@@ -32,7 +32,7 @@ public class SingletonManager
 
     protected SingletonManager()
     {
-        m_dictManager.Add(new CCoroutineManager());
+        m_dictManager.Add(new CTaskManager());
         m_dictManager.Add(new CResourceManager());
         m_dictManager.Add(new CConfigManager());
         m_dictManager.Add(new CUIManager());
@@ -73,6 +73,8 @@ public class SingletonManager
             m_dictManager[i].Initialize();
         }
 
+        GetManager<CUIManager>().SetUIRoot(m_GameMain.m_uiRoot);
+
         //foreach (KeyValuePair<Type, Singletone> kvp in m_dictManager)
         //{
         //    kvp.Value.Initialize();
@@ -107,7 +109,7 @@ public class SingletonManager
 
     public T GetManager<T>() where T : Singletone//MonoBehaviour
     {
-        if (typeof(T) == typeof(CCoroutineManager))
+        if (typeof(T) == typeof(CTaskManager))
         {
             return m_dictManager[0] as T;
         }

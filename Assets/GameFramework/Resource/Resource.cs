@@ -34,13 +34,6 @@ public class CResource
         get { return m_strResPath; }
     }
 
-    //private string m_strAssetPath;
-    //public string AssetPath
-    //{
-    //    get { return m_strAssetPath; }
-    //    //set { m_strAssetPath = value; }
-    //}
-
     private AssetBundle m_AssetBundle;
     public AssetBundle AssetBundle
     {
@@ -52,7 +45,6 @@ public class CResource
     public uint RequireResVer
     {
         get { return m_uRequireResVer; }
-        //set { m_iRequireResVer = value; }
     }
 
     private ResourceMaintainType m_eMaintainType;

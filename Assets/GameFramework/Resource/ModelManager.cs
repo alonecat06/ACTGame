@@ -47,7 +47,7 @@ public class CModelManager : Singletone//MonoBehaviour
 
     private void FinishLoadingModel(CResource res)
     {
-        GameObject gobj = res.MainAsset as GameObject;
+        GameObject gobj = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));// res.MainAsset as GameObject;
         if (gobj == null)
         {
             return;

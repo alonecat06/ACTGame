@@ -20,7 +20,7 @@ public class EnterGameUI : MonoBehaviour
 
     private void OnClickClientBtn(GameObject go)
     {
-        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_Icon);
+        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(2, LoadAnimation.LoadAnimation_Icon);
         SingletonManager.Inst.GetManager<CUIManager>().UnloadUI(gameObject.name.GetHashCode());
     }
 

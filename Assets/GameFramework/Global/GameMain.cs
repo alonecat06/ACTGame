@@ -47,7 +47,7 @@ public class GameMain : MonoBehaviour
     public void LoadFirstUI()
     {
         //加载第一个界面
-        CResource res = SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
+        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
     }
 
     public void OpenLoadingAnimation(LoadAnimation eLoadAnimation)

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 930665206
+CRC: 2448753701
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 496f3a22b141813ee0d3881cc5063e24
+    Hash: 8a79e3f2b678dc383fbc910b3c264a4e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
-- Assets/GameAssets/Config/Binary/ResVer.bytes
+- Assets/GameAssets/Config/Binary/ResourceInfo.bytes
 Dependencies: []

@@ -30,7 +30,7 @@ public class ResVerConfigProvider : IConfigProvider
     public override bool LoadTextFile(ConfigFile file)
     {
         int iRowCount = file.GetRow();
-        for (int iRow = 2; iRow < iRowCount; ++iRow )
+        for (int iRow = 0; iRow < iRowCount; ++iRow )
         {
             uint uResId = file.GetUIntData(iRow, (int)ResVerColumn.ResVerColumn_ResId);
             uint uVerId = file.GetUIntData(iRow, (int)ResVerColumn.ResVerColumn_VerId);

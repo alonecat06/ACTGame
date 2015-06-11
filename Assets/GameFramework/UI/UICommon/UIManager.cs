@@ -56,11 +56,12 @@ public class CUIManager : Singletone//MonoBehaviour
         }
     }
 
-    private void FinishLoadingUI(CResource Res)
+    private void FinishLoadingUI(CResource res)
     {
         SingletonManager.Inst.GameMain.CloseLoadingAnimation();
 
-        GameObject gobj = Res.MainAsset as GameObject;
+        GameObject gobj = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));
+        //GameObject gobj = Res.MainAsset as GameObject;
         if (gobj == null)
         {
             return;
@@ -72,6 +73,6 @@ public class CUIManager : Singletone//MonoBehaviour
         gobj.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
 
         m_dictUIPanel.Add(gobj.name.GetHashCode(), gobj);
-        m_dictUIResId.Add(gobj.name.GetHashCode(), Res.ResId);
+        m_dictUIResId.Add(gobj.name.GetHashCode(), res.ResId);
     }
 }

@@ -34,21 +34,11 @@ class CResourceManager : Singletone//MonoBehaviour
 
     public override bool Initialize()
     {
-        //下载网上的资源总表
-        SingletonManager.Inst.GetManager<CCoroutineManager>().StartCoroutine(LoadResVer());
+        //判断是否存在本地的资源总表
+        m_bNoLocalRes = !File.Exists(Application.persistentDataPath + '/' + GlobalDef.s_ResVerName);
 
-        //加载本地的资源总表
-        if (File.Exists(GlobalDef.s_LocalFileRootPath + GlobalDef.s_ResVerName))
-        {
-            //FileStream fs = new FileStream(Application.persistentDataPath + GlobalDef.s_ResVerName, FileMode.Open);
-            //StreamWrapper sw = new StreamWrapper(fs);
-            //LoadResVerBinaryFile(sw, true);
-            m_bNoLocalRes = false;
-        }
-        else
-        {
-            m_bNoLocalRes = true;
-        }
+        //下载网上资源总表和加载本地资源总表
+        SingletonManager.Inst.GetManager<CTaskManager>().StartCoroutine(LoadResVer());
 
         return true;
     }
@@ -117,7 +107,6 @@ class CResourceManager : Singletone//MonoBehaviour
             Debug.LogError("资源配置表中找不到配置信息，ResId为" + uResId);
             return null;
         }
-
         CResource res;
         if (!m_dictResLoading.TryGetValue(uResId, out res))
         {
@@ -125,23 +114,9 @@ class CResourceManager : Singletone//MonoBehaviour
             m_dictResLoading.Add(uResId, res);
             res.OnResourceLoaded += deleg;
             res.OnResourceLoadCancel += ResourceLoadCancle;
-            SingletonManager.Inst.GetManager<CCoroutineManager>().StartCoroutine(LoadAssetBundle(res));
+            SingletonManager.Inst.GetManager<CTaskManager>().StartCoroutine(LoadAssetBundle(res));
         }
-
         return res;
-    }
-    public void LoadResourceInfoConfig(uint uReqVer, ResourceLoaded deleg)
-    {
-        uint uResId = 0;
-        CResource res;
-        if (!m_dictResLoading.TryGetValue(uResId, out res))
-        {
-            res = new CResource(uResId, "resourceinfo", "/Config/", uReqVer, ResourceMaintainType.ResourceMaintain_AutoRelease, 10);
-            m_dictResLoading.Add(uResId, res);
-            res.OnResourceLoaded += deleg;
-            res.OnResourceLoadCancel += ResourceLoadCancle;
-            SingletonManager.Inst.GetManager<CCoroutineManager>().StartCoroutine(LoadAssetBundle(res));
-        }
     }
 
     private void ResourceLoadCancle(CResource Res)
@@ -161,6 +136,7 @@ class CResourceManager : Singletone//MonoBehaviour
 
     private IEnumerator LoadResVer()
     {
+        #region 下载网络资源总表
         WWW www = new WWW(GlobalDef.s_FileServerUrl + GlobalDef.s_ResVerName);
         yield return www;
 
@@ -177,14 +153,50 @@ class CResourceManager : Singletone//MonoBehaviour
             Debug.LogWarning("www is null--path" + GlobalDef.s_FileServerUrl + GlobalDef.s_ResVerName);
         }
 
-        object[] txt = www.assetBundle.LoadAllAssets(typeof(TextAsset));
-        if (null != txt && txt.Length == 1)
+        StreamWrapper sw = new StreamWrapper(www.bytes);
+        LoadResVerBinaryFile(sw, false);
+        #endregion
+
+        #region 加载本地资源总表
+        if (!m_bNoLocalRes)
         {
-            TextAsset tt = txt[0] as TextAsset;
-            StreamWrapper sw = new StreamWrapper(tt.bytes);
-            LoadResVerBinaryFile(sw, false);
-            LoadResourceInfoConfig(0, ResourceInfoConfigLoaded);
+            WWW www1 = new WWW(GlobalDef.s_LocalFileRootPath + GlobalDef.s_ResVerName);
+            yield return www1;
+
+            if (null != www1)
+            {
+                if (null != www1.error)
+                {
+                    Debug.LogError(GlobalDef.s_LocalFileRootPath + GlobalDef.s_ResVerName + "资源本地加载出问题" + www1.error);
+                    yield break;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("www is null--path" + GlobalDef.s_LocalFileRootPath + GlobalDef.s_ResVerName);
+            }
+
+            StreamWrapper sw1 = new StreamWrapper(www1.bytes);
+            LoadResVerBinaryFile(sw1, true);
+        } 
+        #endregion
+
+        #region 加载资源信息表
+        CResource res;
+        if (!m_dictResLoading.TryGetValue(GlobalDef.s_ResourceInfoResId, out res))
+        {
+            res = new CResource(GlobalDef.s_ResourceInfoResId
+                                , "ResourceInfo"
+                                , ""
+                                , m_dictNetResVer[GlobalDef.s_ResourceInfoResId]
+                                , ResourceMaintainType.ResourceMaintain_AutoRelease
+                                , 10);
+            m_dictResLoading.Add(GlobalDef.s_ResourceInfoResId, res);
+            res.OnResourceLoaded += ResourceInfoConfigLoaded;
+            res.OnResourceLoadCancel += ResourceLoadCancle;
+            SingletonManager.Inst.GetManager<CTaskManager>().StartCoroutine(LoadAssetBundle(res));
         }
+        #endregion
     }
     private void ResourceInfoConfigLoaded(CResource res)
     {
@@ -202,8 +214,9 @@ class CResourceManager : Singletone//MonoBehaviour
 
     private IEnumerator LoadAssetBundle(CResource res)
     {
-        if (!m_bNoLocalRes && IsLocalResUpToDate(res))
+        if (!m_bNoLocalRes && IsLocalResUpToDate(res) && IsResExistLocal(res))
         {
+            #region 读取本地资源
             WWW www = new WWW(GlobalDef.s_LocalFileRootPath + res.ResourcePath + res.ResourceName);
             yield return www;
 
@@ -211,7 +224,7 @@ class CResourceManager : Singletone//MonoBehaviour
             {
                 if (null != www.error)
                 {
-                    Debug.LogError(GlobalDef.s_LocalFileRootPath + res.ResourcePath + res.ResourceName + "资源下载出问题" + www.error);
+                    Debug.LogError(GlobalDef.s_LocalFileRootPath + res.ResourcePath + res.ResourceName + "资源本地加载出问题" + www.error);
                     yield break;
                 }
             }
@@ -219,11 +232,13 @@ class CResourceManager : Singletone//MonoBehaviour
             {
                 Debug.LogWarning("www is null--path" + GlobalDef.s_LocalFileRootPath + res.ResourcePath + res.ResourceName);
             }
+            #endregion
 
             CompleteResourceLoading(www.assetBundle, res);
         } 
         else
-        {//下载需要更新的资源
+        {
+            #region 下载需要更新的资源
             WWW www = new WWW(GlobalDef.s_FileServerUrl + res.ResourcePath + res.ResourceName);
             yield return www;
 
@@ -239,6 +254,7 @@ class CResourceManager : Singletone//MonoBehaviour
             {
                 Debug.LogWarning("www is null--path" + GlobalDef.s_FileServerUrl + res.ResourcePath + res.ResourceName);
             }
+            #endregion
 
             CompleteResourceLoading(www.assetBundle, res);
             //将资源写入本地目录，并清理旧资源（如果有的话）
@@ -259,6 +275,12 @@ class CResourceManager : Singletone//MonoBehaviour
         {
             return false;
         }
+    }
+
+    private bool IsResExistLocal(CResource res)
+    {
+        bool bFileExist = File.Exists(Application.persistentDataPath + "/" + res.ResourcePath + res.ResourceName);
+        return bFileExist;
     }
 
     private void CompleteResourceLoading(AssetBundle ab, CResource res)

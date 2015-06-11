@@ -22,6 +22,11 @@ public class ConfigFile
 
         while (!string.IsNullOrEmpty(s = fs.ReadLine()))
         {
+            if (s[0] == '/' && s[1] == '/')
+            {
+                continue;
+            }
+
             List<string> listRow = new List<string>();
             if (!string.IsNullOrEmpty(s))
             {

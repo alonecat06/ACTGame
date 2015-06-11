@@ -21,6 +21,7 @@ public class CResourceInfo : ISerializable
     {
         uResId = info.GetUInt32("ResId");
         strResName = info.GetString("ResName");
+        strResPath = info.GetString("ResPath");
         eMaintainType = (ResourceMaintainType)info.GetInt32("MaintainType");
         iCacheTime = info.GetInt32("CacheTime");
     }
@@ -29,6 +30,7 @@ public class CResourceInfo : ISerializable
     {
         info.AddValue("ResId", uResId);
         info.AddValue("ResName", strResName);
+        info.AddValue("ResPath", strResPath);
         info.AddValue("MaintainType", (int)eMaintainType);
         info.AddValue("CacheTime", iCacheTime);
     }
@@ -81,7 +83,7 @@ public class ResourceInfoConfigProvider : IConfigProvider
     public override bool LoadTextFile(ConfigFile file)
     {
         int iRowCount = file.GetRow();
-        for (int iRow = 2; iRow < iRowCount; ++iRow )
+        for (int iRow = 0; iRow < iRowCount; ++iRow )
         {
             CResourceInfo resInfo = new CResourceInfo();
             resInfo.uResId = file.GetUIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResId);

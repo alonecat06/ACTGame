@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2257320206
+CRC: 2845555401
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 66f7db541fc4c229f5cc7078d1d6a261
+    Hash: 97d12a7c5c92fc4d8217a0f1b9607a14
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 43afc39bf0a76b222a0436170931d8c8
+    Hash: 1695ea08c1247a5b97b92b57a5670a55
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -36,6 +36,8 @@ ClassTypes:
 - Class: 115
   Script: {instanceID: 0}
 - Class: 137
+  Script: {instanceID: 0}
+- Class: 143
   Script: {instanceID: 0}
 Assets:
 - Assets/GameAssets/Prefab/Player_1_female.prefab

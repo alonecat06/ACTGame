@@ -39,7 +39,14 @@ public class LoadingUI: MonoBehaviour
         if (m_eLoadAnimation == LoadAnimation.LoadAnimation_WholeScreen)
         {
             textLoading.text = "正在加载资源";
-            sliderLoading.value += 0.005f;
+            if (sliderLoading.value < 1.0f)
+            {
+                sliderLoading.value += 0.01f;
+            } 
+            else
+            {
+                sliderLoading.value = 0.0f;
+            }
         }
         else if (m_eLoadAnimation == LoadAnimation.LoadAnimation_Icon)
         {

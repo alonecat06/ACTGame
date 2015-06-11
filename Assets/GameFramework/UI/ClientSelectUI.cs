@@ -64,6 +64,9 @@ public class ClientSelectUI : MonoBehaviour
         {
             psSinglePlayer.LoadCharaterToStage(CharaterType.CharaterType_Player, 101);
         }
+        m_bTakeWeapon = false;
+        m_bTakeShield = false;
+        m_bTakeShoulderArmor = false;
     }
 
     private void OnClickWeaponFishBtn(GameObject go)
