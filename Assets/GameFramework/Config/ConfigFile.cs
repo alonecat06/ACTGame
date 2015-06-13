@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 
 public class ConfigFile
 {
+    private List<string> m_strColumnName = new List<string>();
     private List<List<string>> m_strFileContent = new List<List<string>>();
     private int m_iColumn;
     private int m_iRow;
@@ -20,8 +21,23 @@ public class ConfigFile
         SortedList sl = new SortedList();
         StreamReader fs = new StreamReader(steam, Encoding.GetEncoding(strEncode));
 
+        bool bFirstRow = true;
         while (!string.IsNullOrEmpty(s = fs.ReadLine()))
         {
+            #region 首行记录列名
+            if (bFirstRow)
+            {
+                string[] arr = s.Split(',');
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    m_strColumnName.Add(arr[i]);
+                }
+
+                bFirstRow = false;
+                continue;
+            }
+            #endregion
+
             if (s[0] == '/' && s[1] == '/')
             {
                 continue;
@@ -162,5 +178,10 @@ public class ConfigFile
             }
         }
         return false;
+    }
+
+    public int GetColumnIdxByName(string strColumnName)
+    {
+        return m_strColumnName.IndexOf(strColumnName);
     }
 }

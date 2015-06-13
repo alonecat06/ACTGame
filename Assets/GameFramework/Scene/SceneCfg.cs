@@ -38,14 +38,14 @@ public class SceneCfg : ISerializable
 
 public class SceneCfgConfigProvider : IConfigProvider
 {
-    enum SceneCfgColumn
-    {
-        SceneCfgColumn_SceneId = 0,
-        SceneCfgColumn_SceneName = 1,
-        SceneCfgColumn_TerrainId = 2,
-        SceneCfgColumn_SkyId = 3,
-        SceneCfgColumn_WeatherId = 4,
-    };
+    //enum SceneCfgColumn
+    //{
+    //    SceneCfgColumn_SceneId = 0,
+    //    SceneCfgColumn_SceneName = 1,
+    //    SceneCfgColumn_TerrainId = 2,
+    //    SceneCfgColumn_SkyId = 3,
+    //    SceneCfgColumn_WeatherId = 4,
+    //};
 
     private Dictionary<uint, SceneCfg> m_dictData = new Dictionary<uint, SceneCfg>();
 
@@ -86,11 +86,11 @@ public class SceneCfgConfigProvider : IConfigProvider
         for (int iRow = 0; iRow < iRowCount; ++iRow )
         {
             SceneCfg cfgScene = new SceneCfg();
-            cfgScene.uSceneId = file.GetUIntData(iRow, (int)SceneCfgColumn.SceneCfgColumn_SceneId);
-            cfgScene.strSceneName = file.GetContent(iRow, (int)SceneCfgColumn.SceneCfgColumn_SceneName);
-            cfgScene.uTerrainId = file.GetUIntData(iRow, (int)SceneCfgColumn.SceneCfgColumn_TerrainId);
-            cfgScene.uSkyId = file.GetUIntData(iRow, (int)SceneCfgColumn.SceneCfgColumn_SkyId);
-            cfgScene.uWeatherId = file.GetUIntData(iRow, (int)SceneCfgColumn.SceneCfgColumn_WeatherId);
+            cfgScene.uSceneId = file.GetUIntData(iRow, file.GetColumnIdxByName("SceneId"));
+            cfgScene.strSceneName = file.GetContent(iRow, file.GetColumnIdxByName("SceneName"));
+            cfgScene.uTerrainId = file.GetUIntData(iRow, file.GetColumnIdxByName("TerrainId"));
+            cfgScene.uSkyId = file.GetUIntData(iRow, file.GetColumnIdxByName("SkyId"));
+            cfgScene.uWeatherId = file.GetUIntData(iRow, file.GetColumnIdxByName("WeatherId"));
 
             m_dictData.Add(cfgScene.uSceneId, cfgScene);
         }

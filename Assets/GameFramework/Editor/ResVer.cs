@@ -6,11 +6,11 @@ using System.Runtime.Serialization;
 
 public class ResVerConfigProvider : IConfigProvider
 {
-    enum ResVerColumn
-    {
-        ResVerColumn_ResId = 0,
-        ResVerColumn_VerId = 1,
-    };
+    //enum ResVerColumn
+    //{
+    //    ResVerColumn_ResId = 0,
+    //    ResVerColumn_VerId = 1,
+    //};
 
     private Dictionary<uint, uint> m_dictData = new Dictionary<uint, uint>();
 
@@ -32,8 +32,8 @@ public class ResVerConfigProvider : IConfigProvider
         int iRowCount = file.GetRow();
         for (int iRow = 0; iRow < iRowCount; ++iRow )
         {
-            uint uResId = file.GetUIntData(iRow, (int)ResVerColumn.ResVerColumn_ResId);
-            uint uVerId = file.GetUIntData(iRow, (int)ResVerColumn.ResVerColumn_VerId);
+            uint uResId = file.GetUIntData(iRow, file.GetColumnIdxByName("ResId"));
+            uint uVerId = file.GetUIntData(iRow, file.GetColumnIdxByName("VerId"));
 
             m_dictData.Add(uResId, uVerId);
         }

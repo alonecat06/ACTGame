@@ -43,17 +43,9 @@ public class GameMain : MonoBehaviour
         SingletonManager.Inst.Uninitialize();
     }
 
-
-    public void LoadFirstUI()
-    {
-        //加载第一个界面
-        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
-    }
-
     public void OpenLoadingAnimation(LoadAnimation eLoadAnimation)
     {
         m_LoadingUI.SetLoadAnimation(eLoadAnimation);
-
     }
 
     public void CloseLoadingAnimation()

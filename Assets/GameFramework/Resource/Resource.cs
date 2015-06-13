@@ -8,8 +8,8 @@ public enum ResourceMaintainType
     ResourceMaintain_Manual,
 }
 
-public delegate void ResourceLoaded(CResource Res);
-public delegate void ResourceLoadCancel(CResource Res);
+public delegate void ResourceLoaded(CResource res);
+public delegate void ResourceLoadCancel(CResource res);
 
 public class CResource
 {

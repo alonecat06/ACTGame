@@ -16,8 +16,11 @@ public class CConfigManager : Singletone//MonoBehaviour
         m_dictCPType.Add(typeof(SceneCfgConfigProvider), cp.ResId);
         m_dictConfigProvider.Add(cp.ResId, cp);
 
-        //LoadAllBinaryFile();
-
+        return true;
+    }
+    public override bool InitializeData()
+    {
+        LoadAllBinaryFile();
         return true;
     }
 

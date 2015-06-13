@@ -38,14 +38,14 @@ public class CResourceInfo : ISerializable
 
 public class ResourceInfoConfigProvider : IConfigProvider
 {
-    enum ResourceInfoColumn
-    {
-        ResourceInfoColumn_ResId = 0,
-        ResourceInfoColumn_ResName = 1,
-        ResourceInfoColumn_MaintainType = 2,
-        ResourceInfoColumn_CacheTime = 3,
-        ResourceInfoColumn_ResPath = 4,
-    };
+    //enum ResourceInfoColumn
+    //{
+    //    ResourceInfoColumn_ResId = 0,
+    //    ResourceInfoColumn_ResName = 1,
+    //    ResourceInfoColumn_MaintainType = 2,
+    //    ResourceInfoColumn_CacheTime = 3,
+    //    ResourceInfoColumn_ResPath = 4,
+    //};
 
     private Dictionary<uint, CResourceInfo> m_dictData = new Dictionary<uint, CResourceInfo>();
 
@@ -86,11 +86,11 @@ public class ResourceInfoConfigProvider : IConfigProvider
         for (int iRow = 0; iRow < iRowCount; ++iRow )
         {
             CResourceInfo resInfo = new CResourceInfo();
-            resInfo.uResId = file.GetUIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResId);
-            resInfo.strResName = file.GetContent(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResName);
-            resInfo.eMaintainType = (ResourceMaintainType)file.GetIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_MaintainType);
-            resInfo.iCacheTime = file.GetIntData(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_CacheTime);
-            resInfo.strResPath = file.GetContent(iRow, (int)ResourceInfoColumn.ResourceInfoColumn_ResPath);
+            resInfo.uResId = file.GetUIntData(iRow, file.GetColumnIdxByName("ResId"));
+            resInfo.strResName = file.GetContent(iRow, file.GetColumnIdxByName("ResName"));
+            resInfo.eMaintainType = (ResourceMaintainType)file.GetIntData(iRow, file.GetColumnIdxByName("MaintainType"));
+            resInfo.iCacheTime = file.GetIntData(iRow, file.GetColumnIdxByName("CacheTime"));
+            resInfo.strResPath = file.GetContent(iRow, file.GetColumnIdxByName("ResPath"));
 
             m_dictData.Add(resInfo.uResId, resInfo);
         }

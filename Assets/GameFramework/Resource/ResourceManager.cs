@@ -119,6 +119,32 @@ class CResourceManager : Singletone//MonoBehaviour
         return res;
     }
 
+    public void LoadResource(uint uResId, ResourceLoaded deleg, out IEnumerator iter)
+    {
+        iter = null;
+
+        uint uReqVer;
+        if (!m_dictNetResVer.TryGetValue(uResId, out uReqVer))
+        {
+            Debug.LogWarning("尝试获取旧资源，id：" + uResId);
+        }
+
+        CResourceInfo resInfo = cpResInfo.GetResourceInfo(uResId);
+        if (resInfo == null)
+        {
+            Debug.LogError("资源配置表中找不到配置信息，ResId为" + uResId);
+            return;
+        }
+
+        CResource res = new CResource(resInfo, uReqVer);
+        m_dictResLoading.Add(uResId, res);
+        res.OnResourceLoaded += deleg;
+        res.OnResourceLoadCancel += ResourceLoadCancle;
+        
+        iter = LoadAssetBundle(res);
+    }
+
+
     private void ResourceLoadCancle(CResource Res)
     {
         m_dictResLoading.Remove(Res.ResId);
@@ -187,7 +213,7 @@ class CResourceManager : Singletone//MonoBehaviour
         {
             res = new CResource(GlobalDef.s_ResourceInfoResId
                                 , "ResourceInfo"
-                                , ""
+                                , "Config/"
                                 , m_dictNetResVer[GlobalDef.s_ResourceInfoResId]
                                 , ResourceMaintainType.ResourceMaintain_AutoRelease
                                 , 10);
@@ -203,12 +229,16 @@ class CResourceManager : Singletone//MonoBehaviour
         object[] txt = res.AssetBundle.LoadAllAssets(typeof(TextAsset));
         if (null != txt && txt.Length == 1)
         {
+            #region 读取资源信息表数据
             TextAsset tt = txt[0] as TextAsset;
             StreamWrapper sw = new StreamWrapper(tt.bytes);
             cpResInfo = new ResourceInfoConfigProvider();
             cpResInfo.LoadBinaryFile(sw);
+            #endregion
 
-            SingletonManager.Inst.GameMain.LoadFirstUI();
+            #region 初始化所有管理器的数据
+            SingletonManager.Inst.InitializeData();
+            #endregion
         }
     }
 

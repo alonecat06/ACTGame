@@ -8,7 +8,7 @@ using System.Collections.Generic;
 //    UIId_ClientSelect,
 //}
 
-public class CUIManager : Singletone//MonoBehaviour 
+public class CUIManager : Singletone
 {
 
     private GameObject m_uiRoot;
@@ -16,19 +16,28 @@ public class CUIManager : Singletone//MonoBehaviour
     private Dictionary<int, GameObject> m_dictUIPanel = new Dictionary<int, GameObject>();
     private Dictionary<int, uint> m_dictUIResId = new Dictionary<int, uint>();
 
-    //void Start () 
-    //{
-	
-    //}
-
-    //void Update () {
-	
-    //}
-
-    public void SetUIRoot(GameObject goUiRoot)
+    public override bool Initialize()
     {
-        m_uiRoot = goUiRoot;
+        m_uiRoot = GameObject.Find("UIRoot");
+        if (m_uiRoot == null)
+        {
+            Debug.LogError("界面根节点为空");
+            return false;
+        }
+        return true;
     }
+
+    public override bool InitializeData()
+    {
+        //加载第一个界面
+        LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
+        return true;
+    }
+
+    //public void SetUIRoot(GameObject goUiRoot)
+    //{
+    //    m_uiRoot = goUiRoot;
+    //}
 
     public CResource LoadUI(uint uUIId, LoadAnimation eLoadAnimation)
     {
@@ -61,7 +70,6 @@ public class CUIManager : Singletone//MonoBehaviour
         SingletonManager.Inst.GameMain.CloseLoadingAnimation();
 
         GameObject gobj = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));
-        //GameObject gobj = Res.MainAsset as GameObject;
         if (gobj == null)
         {
             return;

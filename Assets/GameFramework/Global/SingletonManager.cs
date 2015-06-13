@@ -6,16 +6,20 @@ public class Singletone
 {
     public virtual bool Initialize()
     {
-        return false;
+        return true;
+    }
+    public virtual bool InitializeData()
+    {
+        return true;
     }
     public virtual bool Uninitialize()
     {
-        return false;
+        return true;
     }
 
     public virtual bool Update()
     {
-        return false;
+        return true;
     }
 }
 
@@ -73,12 +77,15 @@ public class SingletonManager
             m_dictManager[i].Initialize();
         }
 
-        GetManager<CUIManager>().SetUIRoot(m_GameMain.m_uiRoot);
+        //GetManager<CUIManager>().SetUIRoot(m_GameMain.m_uiRoot);
+    }
 
-        //foreach (KeyValuePair<Type, Singletone> kvp in m_dictManager)
-        //{
-        //    kvp.Value.Initialize();
-        //}
+    public void InitializeData()
+    {
+        for (int i = 0; i < m_dictManager.Count; ++i)
+        {
+            m_dictManager[i].InitializeData();
+        }
     }
 
     public void Uninitialize()
@@ -87,11 +94,6 @@ public class SingletonManager
         {
             m_dictManager[i].Uninitialize();
         }
-        //foreach (KeyValuePair<Type, Singletone> kvp in m_dictManager)
-        //{
-        //    kvp.Value.Uninitialize();
-        //}
-
     }
 
     public void Update()
@@ -100,11 +102,6 @@ public class SingletonManager
         {
             m_dictManager[i].Update();
         }
-        //Dictionary<Type, Singletone>.Enumerator iter = m_dictManager.GetEnumerator();
-        //while(iter.MoveNext())
-        //{
-        //    iter.Current.Value.Update();
-        //}
     }
 
     public T GetManager<T>() where T : Singletone//MonoBehaviour

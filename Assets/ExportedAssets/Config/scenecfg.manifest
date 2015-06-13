@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1574234865
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b952fe789ba67c89aa3a105b6c40cc6b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameAssets/Config/Binary/SceneCfg.bytes
+Dependencies: []

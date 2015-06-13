@@ -35,8 +35,6 @@ class PhotoStage : MonoBehaviour
 
     private void LoadedCharaterRes(CResource res)
     {
-        //Object objCopy = Object.Instantiate(res.MainAsset);
-        //GameObject goCharacter = objCopy as GameObject;
         GameObject goCharacter = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));// res.MainAsset as GameObject;   
 
         if (goCharacter == null)

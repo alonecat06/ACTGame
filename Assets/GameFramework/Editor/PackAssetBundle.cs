@@ -6,31 +6,31 @@ using UnityEditor;
 
 public class PackAssetBundle : Editor
 {
-    //打包单个  
-    [MenuItem("Custom Editor/Create AssetBunldes Selected")]
-    static void CreateAssetBunldesSelected()
-    {
-        //获取在Project视图中选择的所有游戏对象  
-        Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
-        //遍历所有的游戏对象  
-        foreach (Object obj in SelectedAsset)
-        {
-            //本地测试：建议最后将Assetbundle放在StreamingAssets文件夹下，如果没有就创建一个，因为移动平台下只能读取这个路径  
-            //StreamingAssets是只读路径，不能写入  
-            //服务器下载：就不需要放在这里，服务器上客户端用www类进行下载。  
-            string targetPath = Application.dataPath + "/ExportedAssets/UI/" + obj.name + ".unity3d";
-            if (BuildPipeline.BuildAssetBundle(obj, null, targetPath, BuildAssetBundleOptions.UncompressedAssetBundle))
-            {
-                Debug.Log(obj.name + "资源打包成功");
-            }
-            else
-            {
-                Debug.Log(obj.name + "资源打包失败");
-            }
-        }
-        //刷新编辑器  
-        AssetDatabase.Refresh();
-    }
+    ////打包单个  
+    //[MenuItem("Custom Editor/Create AssetBunldes Selected")]
+    //static void CreateAssetBunldesSelected()
+    //{
+    //    //获取在Project视图中选择的所有游戏对象  
+    //    Object[] SelectedAsset = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
+    //    //遍历所有的游戏对象  
+    //    foreach (Object obj in SelectedAsset)
+    //    {
+    //        //本地测试：建议最后将Assetbundle放在StreamingAssets文件夹下，如果没有就创建一个，因为移动平台下只能读取这个路径  
+    //        //StreamingAssets是只读路径，不能写入  
+    //        //服务器下载：就不需要放在这里，服务器上客户端用www类进行下载。  
+    //        string targetPath = Application.dataPath + "/ExportedAssets/UI/" + obj.name + ".unity3d";
+    //        if (BuildPipeline.BuildAssetBundle(obj, null, targetPath, BuildAssetBundleOptions.UncompressedAssetBundle))
+    //        {
+    //            Debug.Log(obj.name + "资源打包成功");
+    //        }
+    //        else
+    //        {
+    //            Debug.Log(obj.name + "资源打包失败");
+    //        }
+    //    }
+    //    //刷新编辑器  
+    //    AssetDatabase.Refresh();
+    //}
 
     static bool PacketConfigAssetsBundle(string strConfigName, string strConfigPath, IConfigProvider cp)
     {
@@ -61,7 +61,7 @@ public class PackAssetBundle : Editor
                 abb.assetBundleName = strConfigName;
                 abb.assetNames = new string[] { "Assets/GameAssets/Config/Binary/" + strConfigName + ".bytes" };
                 arrABB[0] = abb;
-                BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/" + strConfigPath
+                BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/Config/" + strConfigPath
                                                 , arrABB
                                                 , BuildAssetBundleOptions.UncompressedAssetBundle
                                                 , BuildTarget.WebPlayer);
@@ -82,7 +82,7 @@ public class PackAssetBundle : Editor
     [MenuItem("Custom Editor/Create Resource Config")]
     static void CreateResourceConfigAssetBunldes()
     {
-        //PacketConfigAssetsBundle("ResVer", "", new ResVerConfigProvider());
+        #region 打包资源总表
         IConfigProvider cp = new ResVerConfigProvider();
         using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResVer.csv", FileMode.Open))
         {
@@ -106,6 +106,7 @@ public class PackAssetBundle : Editor
                 fs.Close();
             }
         }
+        #endregion
 
         PacketConfigAssetsBundle("ResourceInfo", "", new ResourceInfoConfigProvider());
     }    
@@ -175,6 +176,10 @@ public class PackAssetBundle : Editor
                 else if (iter.Current.Value.strResPath.Contains("Scene"))
                 {
                     listScene.Add(abb);
+                }
+                else//Config的不处理
+                {
+                    continue;
                 }
 
                 Debug.Log(string.Format("打包资源{0}到路径{1}", iter.Current.Value.strResName, "/ExportedAssets/" + iter.Current.Value.strResPath));

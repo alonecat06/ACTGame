@@ -1,0 +1,9 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: weather01
+      Dependencies: {}
+    Info_1:
+      Name: terrain01
+      Dependencies: {}
