@@ -22,13 +22,14 @@ public class CSceneManager : Singletone//MonoBehaviour
         return true;
     }
 
-    public void LoadScene(int iSceneId)
+    public void LoadScene(uint iSceneId)
     {
-        //显示加载动画
-        SingletonManager.Inst.GameMain.OpenLoadingAnimation(LoadAnimation.LoadAnimation_WholeScreen);
-
-        if (iSceneId == 1)
+        SceneCfg cfgScene = SingletonManager.Inst.GetManager<CConfigManager>().GetConfigProvider<SceneCfgConfigProvider>().GetSceneCfg(iSceneId);
+        if (cfgScene != null)
         {
+            //显示加载动画
+            SingletonManager.Inst.GameMain.OpenLoadingAnimation(LoadAnimation.LoadAnimation_WholeScreen);
+
             //界面切换到过场加载界面
 
             //加载地形（包括地形几何，光源）
@@ -39,23 +40,13 @@ public class CSceneManager : Singletone//MonoBehaviour
             CResource res = SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(900
                                                     , FinishLoadingSkyBox);
             res.OnResourceLoaded += FinishSceneLoading;
-        } 
-        else if (iSceneId == 2)
+        }
+        else
         {
-            //界面切换到过场加载界面
-
-            //加载地形（包括地形几何，光源）
-
-            //加载建筑与物件
-
-            //加载天空盒和天气（挂在摄像机下的粒子特效）
-            CResource res = SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(901
-                                                    , FinishLoadingSkyBox);
-            res.OnResourceLoaded += FinishSceneLoading;
+            Debug.LogError("未能得到场景配置信息,场景编号为" + iSceneId);
         }
     }
 
-    //private void FinishLoadingSkyBox(Object obj, uint uResId)
     private void FinishLoadingSkyBox(CResource res)
     {
         //Material mat = obj as Material;
@@ -69,7 +60,6 @@ public class CSceneManager : Singletone//MonoBehaviour
     }
 
     //场景所有东西加载完成都回调
-    //private void FinishSceneLoading(Object obj, uint uResId)
     private void FinishSceneLoading(CResource res)
     {
         SingletonManager.Inst.GameMain.CloseLoadingAnimation();

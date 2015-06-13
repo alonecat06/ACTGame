@@ -25,11 +25,11 @@ public class GlobalDef
 
     public static string s_LocalFileRootPath = 
 #if UNITY_ANDROID   //安卓  
-        "jar:file://" + Application.persistentDataPath + "/";  
+        "jar:file://" + Application.streamingAssetsPath + "/";  
 #elif UNITY_IPHONE  //iPhone  
-        Application.persistentDataPath + "/";  
+        Application.streamingAssetsPath + "/";  
 #elif UNITY_STANDALONE_WIN || UNITY_EDITOR  //windows平台和web平台
-        "file:///" + Application.persistentDataPath + "/";
+        "file:///" + Application.streamingAssetsPath + "/";
         //Application.persistentDataPath + "/";
 #else  
         string.Empty;  

@@ -12,11 +12,11 @@ public class CConfigManager : Singletone//MonoBehaviour
 
     public override bool Initialize()
     {
-        //IConfigProvider cp = new ResourceInfoConfigProvider();
-        //m_dictCPType.Add(typeof(ResourceInfoConfigProvider), cp.ResId);
-        //m_dictConfigProvider.Add(cp.ResId, cp);
+        IConfigProvider cp = new SceneCfgConfigProvider();
+        m_dictCPType.Add(typeof(SceneCfgConfigProvider), cp.ResId);
+        m_dictConfigProvider.Add(cp.ResId, cp);
 
-        LoadAllBinaryFile();
+        //LoadAllBinaryFile();
 
         return true;
     }

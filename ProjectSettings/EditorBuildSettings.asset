@@ -4,10 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scene/001-menu.unity
-  - enabled: 1
-    path: Assets/Scene/002-play.unity
-  - enabled: 0
-    path: Assets/Scene/GF001_EnterGame.unity
+  m_Scenes: []

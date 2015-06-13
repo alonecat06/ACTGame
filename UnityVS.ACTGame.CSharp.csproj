@@ -74,6 +74,7 @@
     <Compile Include="Assets\GameFramework\Resource\Resource.cs" />
     <Compile Include="Assets\GameFramework\Resource\ResourceInfo.cs" />
     <Compile Include="Assets\GameFramework\Resource\ResourceManager.cs" />
+    <Compile Include="Assets\GameFramework\Scene\SceneCfg.cs" />
     <Compile Include="Assets\GameFramework\Scene\SceneManager.cs" />
     <Compile Include="Assets\GameFramework\UI\ClientSelectUI.cs" />
     <Compile Include="Assets\GameFramework\UI\EnterGameUI.cs" />

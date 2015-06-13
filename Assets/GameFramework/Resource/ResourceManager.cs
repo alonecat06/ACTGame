@@ -35,7 +35,7 @@ class CResourceManager : Singletone//MonoBehaviour
     public override bool Initialize()
     {
         //判断是否存在本地的资源总表
-        m_bNoLocalRes = !File.Exists(Application.persistentDataPath + '/' + GlobalDef.s_ResVerName);
+        m_bNoLocalRes = !File.Exists(Application.streamingAssetsPath + '/' + GlobalDef.s_ResVerName);
 
         //下载网上资源总表和加载本地资源总表
         SingletonManager.Inst.GetManager<CTaskManager>().StartCoroutine(LoadResVer());
@@ -258,7 +258,7 @@ class CResourceManager : Singletone//MonoBehaviour
 
             CompleteResourceLoading(www.assetBundle, res);
             //将资源写入本地目录，并清理旧资源（如果有的话）
-            UpdateLocalResource(Application.persistentDataPath + "/" + res.ResourcePath, res.ResourceName, new StreamWrapper(www.bytes));
+            UpdateLocalResource(Application.streamingAssetsPath + "/" + res.ResourcePath, res.ResourceName, new StreamWrapper(www.bytes));
             //更新本地资源总表版本号
             UpdateLocalResVer(res.ResId, res.RequireResVer);
         }
@@ -279,7 +279,7 @@ class CResourceManager : Singletone//MonoBehaviour
 
     private bool IsResExistLocal(CResource res)
     {
-        bool bFileExist = File.Exists(Application.persistentDataPath + "/" + res.ResourcePath + res.ResourceName);
+        bool bFileExist = File.Exists(Application.streamingAssetsPath + "/" + res.ResourcePath + res.ResourceName);
         return bFileExist;
     }
 
@@ -340,7 +340,7 @@ class CResourceManager : Singletone//MonoBehaviour
 
     public bool SaveResVerFile()
     {
-        using (FileStream fs = new FileStream(Application.persistentDataPath + "/" + GlobalDef.s_ResVerName, FileMode.Create))
+        using (FileStream fs = new FileStream(Application.streamingAssetsPath + "/" + GlobalDef.s_ResVerName, FileMode.Create))
         {
             BinaryFormatter binFormat = new BinaryFormatter();
             binFormat.Serialize(fs, m_dictLocalResVer);
