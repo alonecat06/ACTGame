@@ -194,8 +194,7 @@ class CResourceManager : Singletone//MonoBehaviour
             m_dictResLoading.Add(GlobalDef.s_ResourceInfoResId, res);
             res.OnResourceLoaded += ResourceInfoConfigLoaded;
             res.OnResourceLoadCancel += ResourceLoadCancle;
-            
-            yield return LoadAssetBundle(res);
+            SingletonManager.Inst.GetManager<CTaskManager>().StartCoroutine(LoadAssetBundle(res));
         }
         #endregion
     }
