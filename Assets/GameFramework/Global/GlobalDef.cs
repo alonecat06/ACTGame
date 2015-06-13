@@ -16,7 +16,7 @@ public class GlobalDef
 //        string.Empty;  
 //#endif
 
-    public static string s_FileServerIP = "192.168.1.100";
+    public static string s_FileServerIP = "127.0.0.1";
     public static string s_FileServerPort = "1234";
     public static string s_FileServerUrl = "http://" + GlobalDef.s_FileServerIP + ":" + GlobalDef.s_FileServerPort + "/";
     public static string s_ResVerName = "ResVer";
