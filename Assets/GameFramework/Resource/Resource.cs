@@ -8,6 +8,12 @@ public enum ResourceMaintainType
     ResourceMaintain_Manual,
 }
 
+public enum ResourceType
+{
+    ResourceType_Material,
+    ResourceType_Prefab,
+}
+
 public delegate void ResourceLoaded(CResource res);
 public delegate void ResourceLoadCancel(CResource res);
 

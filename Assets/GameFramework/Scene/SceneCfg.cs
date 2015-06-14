@@ -12,6 +12,8 @@ public class SceneCfg : ISerializable
     public uint uTerrainId;
     public uint uSkyId;
     public uint uWeatherId;
+    public float fEnterX;
+    public float fEnterY;
 
     public SceneCfg()
     {
@@ -24,6 +26,8 @@ public class SceneCfg : ISerializable
         uTerrainId = info.GetUInt32("TerrainId");
         uSkyId = info.GetUInt32("SkyId");
         uWeatherId = info.GetUInt32("WeatherId");
+        fEnterX = info.GetSingle("EnterX");
+        fEnterY = info.GetSingle("EnterY");
     }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -33,20 +37,13 @@ public class SceneCfg : ISerializable
         info.AddValue("TerrainId", uTerrainId);
         info.AddValue("SkyId", uSkyId);
         info.AddValue("WeatherId", uWeatherId);
+        info.AddValue("EnterX", fEnterX);
+        info.AddValue("EnterY", fEnterY);
     }
 }
 
 public class SceneCfgConfigProvider : IConfigProvider
 {
-    //enum SceneCfgColumn
-    //{
-    //    SceneCfgColumn_SceneId = 0,
-    //    SceneCfgColumn_SceneName = 1,
-    //    SceneCfgColumn_TerrainId = 2,
-    //    SceneCfgColumn_SkyId = 3,
-    //    SceneCfgColumn_WeatherId = 4,
-    //};
-
     private Dictionary<uint, SceneCfg> m_dictData = new Dictionary<uint, SceneCfg>();
 
     public override string ConfigProvidePath
@@ -91,6 +88,11 @@ public class SceneCfgConfigProvider : IConfigProvider
             cfgScene.uTerrainId = file.GetUIntData(iRow, file.GetColumnIdxByName("TerrainId"));
             cfgScene.uSkyId = file.GetUIntData(iRow, file.GetColumnIdxByName("SkyId"));
             cfgScene.uWeatherId = file.GetUIntData(iRow, file.GetColumnIdxByName("WeatherId"));
+            string strEnterPos = file.GetContent(iRow, file.GetColumnIdxByName("EnterPos"));
+
+            string[] arrEnterPos = strEnterPos.Split(';');
+            cfgScene.fEnterX = Single.Parse(arrEnterPos[0]);
+            cfgScene.fEnterY = Single.Parse(arrEnterPos[1]);
 
             m_dictData.Add(cfgScene.uSceneId, cfgScene);
         }

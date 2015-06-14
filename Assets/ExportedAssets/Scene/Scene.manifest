@@ -2,8 +2,14 @@ ManifestFileVersion: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: weather01
+      Name: sky01
       Dependencies: {}
     Info_1:
+      Name: sky02
+      Dependencies: {}
+    Info_2:
+      Name: weather01
+      Dependencies: {}
+    Info_3:
       Name: terrain01
       Dependencies: {}

@@ -12,6 +12,7 @@ public class CResourceInfo : ISerializable
     public string strResPath;
     public ResourceMaintainType eMaintainType;
     public int iCacheTime;
+    public ResourceType eResourceType;
 
     public CResourceInfo()
     {
@@ -24,6 +25,7 @@ public class CResourceInfo : ISerializable
         strResPath = info.GetString("ResPath");
         eMaintainType = (ResourceMaintainType)info.GetInt32("MaintainType");
         iCacheTime = info.GetInt32("CacheTime");
+        eResourceType = (ResourceType)info.GetInt32("ResourceType");
     }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -33,20 +35,12 @@ public class CResourceInfo : ISerializable
         info.AddValue("ResPath", strResPath);
         info.AddValue("MaintainType", (int)eMaintainType);
         info.AddValue("CacheTime", iCacheTime);
+        info.AddValue("ResourceType", (int)eResourceType);
     }
 }
 
 public class ResourceInfoConfigProvider : IConfigProvider
 {
-    //enum ResourceInfoColumn
-    //{
-    //    ResourceInfoColumn_ResId = 0,
-    //    ResourceInfoColumn_ResName = 1,
-    //    ResourceInfoColumn_MaintainType = 2,
-    //    ResourceInfoColumn_CacheTime = 3,
-    //    ResourceInfoColumn_ResPath = 4,
-    //};
-
     private Dictionary<uint, CResourceInfo> m_dictData = new Dictionary<uint, CResourceInfo>();
 
     public override string ConfigProvidePath
@@ -91,6 +85,7 @@ public class ResourceInfoConfigProvider : IConfigProvider
             resInfo.eMaintainType = (ResourceMaintainType)file.GetIntData(iRow, file.GetColumnIdxByName("MaintainType"));
             resInfo.iCacheTime = file.GetIntData(iRow, file.GetColumnIdxByName("CacheTime"));
             resInfo.strResPath = file.GetContent(iRow, file.GetColumnIdxByName("ResPath"));
+            resInfo.eResourceType = (ResourceType)file.GetIntData(iRow, file.GetColumnIdxByName("ResType"));
 
             m_dictData.Add(resInfo.uResId, resInfo);
         }

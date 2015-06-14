@@ -1,15 +1,15 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &108704
+--- !u!1 &106776
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 482770}
-  - 218: {fileID: 21861350}
-  - 154: {fileID: 15468450}
+  - 4: {fileID: 486016}
+  - 218: {fileID: 21863700}
+  - 154: {fileID: 15442130}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -59,15 +59,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 499740}
-  - {fileID: 482770}
+  - {fileID: 486016}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!4 &482770
+--- !u!4 &486016
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108704}
+  m_GameObject: {fileID: 106776}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -118,25 +118,25 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!154 &15468450
+--- !u!154 &15442130
 TerrainCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108704}
+  m_GameObject: {fileID: 106776}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: cc4ea95f7b6039c498a0b977831ebd70, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 931d556a611781743bf6d81b31c4a853, type: 2}
   m_EnableTreeColliders: 1
---- !u!218 &21861350
+--- !u!218 &21863700
 Terrain:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108704}
+  m_GameObject: {fileID: 106776}
   m_Enabled: 1
   serializedVersion: 3
-  m_TerrainData: {fileID: 15600000, guid: cc4ea95f7b6039c498a0b977831ebd70, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 931d556a611781743bf6d81b31c4a853, type: 2}
   m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5

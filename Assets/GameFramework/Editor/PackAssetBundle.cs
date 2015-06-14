@@ -157,23 +157,26 @@ public class PackAssetBundle : Editor
             Dictionary<uint, CResourceInfo>.Enumerator iter = cpResInfo.GetEnumerator();
             while (iter.MoveNext())
             {
-                AssetBundleBuild abb = new AssetBundleBuild();
-                abb.assetBundleName = iter.Current.Value.strResName;
-                abb.assetNames = new string[] { "Assets/GameAssets/Prefab/" + iter.Current.Value.strResName + ".prefab" };
+                CResourceInfo resInfo = iter.Current.Value;
 
-                if (iter.Current.Value.strResPath.Contains("UI"))
+                AssetBundleBuild abb = new AssetBundleBuild();
+                abb.assetBundleName = resInfo.strResName;
+                string strSuffix = resInfo.eResourceType == ResourceType.ResourceType_Material ? ".mat" : ".prefab";
+                abb.assetNames = new string[] { "Assets/GameAssets/Prefab/" + resInfo.strResName + strSuffix };
+
+                if (resInfo.strResPath.Contains("UI"))
                 {
                     listUI.Add(abb);
                 }
-                else if (iter.Current.Value.strResPath.Contains("Character"))
+                else if (resInfo.strResPath.Contains("Character"))
                 {
                     listCharacter.Add(abb);
                 }
-                else if (iter.Current.Value.strResPath.Contains("Item"))
+                else if (resInfo.strResPath.Contains("Item"))
                 {
                     listItem.Add(abb);
                 }
-                else if (iter.Current.Value.strResPath.Contains("Scene"))
+                else if (resInfo.strResPath.Contains("Scene"))
                 {
                     listScene.Add(abb);
                 }
@@ -182,7 +185,7 @@ public class PackAssetBundle : Editor
                     continue;
                 }
 
-                Debug.Log(string.Format("打包资源{0}到路径{1}", iter.Current.Value.strResName, "/ExportedAssets/" + iter.Current.Value.strResPath));
+                Debug.Log(string.Format("打包资源{0}到路径{1}", resInfo.strResName, "/ExportedAssets/" + resInfo.strResPath));
             }
 
             BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/UI", listUI.ToArray());

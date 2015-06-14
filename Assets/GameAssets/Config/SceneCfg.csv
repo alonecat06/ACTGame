@@ -1,4 +1,4 @@
-SceneId,SceneName,TerrainId,SkyId,WeatherId
-//场景ID,场景名称,地形ID,天空盒ID,天气ID
-1,雨天,1000,900,950
-2,晚霞,1001,901,
+SceneId,SceneName,TerrainId,SkyId,WeatherId,EnterPos
+//场景ID,场景名称,地形ID,天空盒ID,天气ID,出生点
+1,雨天,1000,900,950,18.1;5.7
+2,晚霞,1001,901,,18.1;5.7

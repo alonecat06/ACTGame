@@ -6,12 +6,6 @@ using System.Runtime.Serialization;
 
 public class ResVerConfigProvider : IConfigProvider
 {
-    //enum ResVerColumn
-    //{
-    //    ResVerColumn_ResId = 0,
-    //    ResVerColumn_VerId = 1,
-    //};
-
     private Dictionary<uint, uint> m_dictData = new Dictionary<uint, uint>();
 
     public override string ConfigProvidePath
