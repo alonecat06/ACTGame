@@ -74,6 +74,7 @@ public class ActionAnimatorController
 
         m_Animator.SetFloat(p_fLocalXDirect, fLocX);
         m_Animator.SetFloat(p_fLocalZDirect, fLocZ);
+        //Debug.Log("LocX:" + fLocX + ",LocZ:" + fLocZ);
 
         m_Animator.speed = fPlaySpeed;
     }

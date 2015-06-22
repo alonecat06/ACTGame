@@ -3,7 +3,14 @@ using System.Collections;
 
 public class ActionCommandInput : MonoBehaviour
 {
+    public CCharacter m_Player;
     public ActionLogicController m_LogicController;
+
+    public bool NeedUpdate
+    {
+        get;
+        set;
+    }
 
     void Start()
     {
@@ -24,6 +31,11 @@ public class ActionCommandInput : MonoBehaviour
 
     void Update()
     {
+        if (NeedUpdate == false)
+        {
+            return;
+        }
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -33,23 +45,36 @@ public class ActionCommandInput : MonoBehaviour
         //    h = Joystick.h; v = Joystick.v;
         //}
 
-        if (InputRun())
+        if (InputRun() && v >= 0.0f)
         {
             m_LogicController.Run(true, h, v, transform);
         }
         else
         {
+        //if (!InputRun())
+        //{
             m_LogicController.Run(false, h, v, transform);
-            if (h <= 0.001 && v <= 0.001)
+        //}
+            if (Mathf.Abs(h) <= 0.001 && Mathf.Abs(v) <= 0.001)
             {
                 m_LogicController.Walk(false, h, v, transform);
             } 
             else
             {
-                m_LogicController.Walk(true, h, v, transform); 
+                m_LogicController.Walk(true, h, v, transform);
             }
         }       
     }
+
+    //void FixedUpdate()
+    //{
+    //    float h = Input.GetAxis("Horizontal");
+    //    float v = Input.GetAxis("Vertical");
+    //    if (InputRun() && (Mathf.Abs(h) > 0.001 || Mathf.Abs(v) > 0.001))
+    //    {
+    //        m_LogicController.Run(true, h, v, transform);
+    //    }
+    //}
 
     void LateUpdate()
     {
@@ -58,6 +83,6 @@ public class ActionCommandInput : MonoBehaviour
 
     private bool InputRun()
     {
-        return false;
+        return Input.GetButton("Fire3");
     }
 }

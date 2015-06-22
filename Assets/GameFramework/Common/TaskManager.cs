@@ -21,7 +21,7 @@ public class CSubTask
 
     bool running = true;
     bool paused = false;
-    bool stopped = false;
+    //bool stopped = false;
 
     public IEnumerator StartSubTask()
     {

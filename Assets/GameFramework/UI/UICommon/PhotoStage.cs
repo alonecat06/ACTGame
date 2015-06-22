@@ -54,6 +54,7 @@ class PhotoStage : MonoBehaviour
         goCharacter.transform.localScale = new Vector3(1, 1, 1);
 
         Destroy(goCharacter.GetComponent<CharacterController>());
+        goCharacter.GetComponent<ActionCommandInput>().NeedUpdate = false;
 
         m_goCharaterModel = goCharacter;
     }

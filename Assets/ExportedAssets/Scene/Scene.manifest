@@ -13,3 +13,6 @@ AssetBundleManifest:
     Info_3:
       Name: terrain01
       Dependencies: {}
+    Info_4:
+      Name: terrain02
+      Dependencies: {}

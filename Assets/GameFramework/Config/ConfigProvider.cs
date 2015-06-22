@@ -8,10 +8,10 @@ public abstract class IConfigProvider
     {
         get;
     }
-    public abstract string ConfigProvideName
-    {
-        get;
-    }
+    //public abstract string ConfigProvideName
+    //{
+    //    get;
+    //}
     public abstract uint ResId
     {
         get;

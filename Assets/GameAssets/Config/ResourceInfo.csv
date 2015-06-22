@@ -16,3 +16,5 @@ ResId,ResName,MaintainType,CacheTime,ResPath,ResType
 5000,ResVer,0,10,,1
 5001,ResourceInfo,0,10,Config/,1
 5002,SceneCfg,0,10,Config/,1
+5003,EquipCfg,0,10,Config/,1
+5004,CharacterCfg,0,10,Config/,1

@@ -16,6 +16,14 @@ public class CConfigManager : Singletone//MonoBehaviour
         m_dictCPType.Add(typeof(SceneCfgConfigProvider), cp.ResId);
         m_dictConfigProvider.Add(cp.ResId, cp);
 
+        cp = new EquipCfgConfigProvider();
+        m_dictCPType.Add(typeof(EquipCfgConfigProvider), cp.ResId);
+        m_dictConfigProvider.Add(cp.ResId, cp);
+
+        cp = new CharacterCfgConfigProvider();
+        m_dictCPType.Add(typeof(CharacterCfgConfigProvider), cp.ResId);
+        m_dictConfigProvider.Add(cp.ResId, cp);
+
         return true;
     }
     public override bool InitializeData()

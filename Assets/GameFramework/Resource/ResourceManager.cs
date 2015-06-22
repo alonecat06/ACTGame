@@ -119,7 +119,7 @@ class CResourceManager : Singletone//MonoBehaviour
         return res;
     }
 
-    public void LoadResource(uint uResId, ResourceLoaded deleg, out IEnumerator iter)
+    public CResource LoadResource(uint uResId, ResourceLoaded deleg, out IEnumerator iter)
     {
         iter = null;
 
@@ -133,15 +133,16 @@ class CResourceManager : Singletone//MonoBehaviour
         if (resInfo == null)
         {
             Debug.LogError("资源配置表中找不到配置信息，ResId为" + uResId);
-            return;
+            return null;
         }
 
         CResource res = new CResource(resInfo, uReqVer);
         m_dictResLoading.Add(uResId, res);
         res.OnResourceLoaded += deleg;
-        res.OnResourceLoadCancel += ResourceLoadCancle;
-        
+        res.OnResourceLoadCancel += ResourceLoadCancle;        
         iter = LoadAssetBundle(res);
+
+        return res;
     }
 
 

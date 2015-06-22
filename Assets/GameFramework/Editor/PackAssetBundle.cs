@@ -32,6 +32,36 @@ public class PackAssetBundle : Editor
     //    AssetDatabase.Refresh();
     //}
 
+
+    static void DeleteFile(string Path)
+    {
+        File.Delete(Path);
+    }
+    static void DeleteDirectory(string strPath, bool bKeepDirectory) 
+    {
+        //删除这个目录下的所有子目录
+        if (Directory.GetDirectories(strPath).Length > 0)
+        {
+            foreach (string var in Directory.GetDirectories(strPath))
+            {
+                DeleteDirectory(var, bKeepDirectory);
+            }
+        }
+        //删除这个目录下的所有文件
+        if (Directory.GetFiles(strPath).Length > 0)
+        {
+            foreach (string var in Directory.GetFiles(strPath))
+            {
+                File.Delete(var);
+            }
+        }
+
+        if (!bKeepDirectory)
+        {
+            Directory.Delete(strPath);
+        }
+    }
+
     static bool PacketConfigAssetsBundle(string strConfigName, string strConfigPath, IConfigProvider cp)
     {
         using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/" + strConfigPath + strConfigName + ".csv", FileMode.Open))
@@ -83,6 +113,8 @@ public class PackAssetBundle : Editor
     static void CreateResourceConfigAssetBunldes()
     {
         #region 打包资源总表
+        DeleteFile(Application.dataPath + "/ExportedAssets/ResVer");
+
         IConfigProvider cp = new ResVerConfigProvider();
         using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResVer.csv", FileMode.Open))
         {
@@ -108,22 +140,49 @@ public class PackAssetBundle : Editor
         }
         #endregion
 
+        DeleteDirectory(Application.dataPath + "/ExportedAssets/Config/", true);
         PacketConfigAssetsBundle("ResourceInfo", "", new ResourceInfoConfigProvider());
     }    
     //打包配置表
     [MenuItem("Custom Editor/Create Config AssetBunlde")]
     static void CreateConfigAssetBunldes()
     {
-        CConfigManager mgrConfig = new CConfigManager();
-        mgrConfig.Initialize();
-        Dictionary<uint, IConfigProvider>.Enumerator iter = mgrConfig.GetConfigProvidersIter();
-        while (iter.MoveNext())
+        ResourceInfoConfigProvider cpResInfo = new ResourceInfoConfigProvider();
+        bool bResInfoLoad = false;
+        using (FileStream fs = new FileStream(Application.dataPath + "/GameAssets/Config/ResourceInfo.csv", FileMode.Open))
         {
-            IConfigProvider cp = iter.Current.Value;
-            PacketConfigAssetsBundle(cp.ConfigProvideName, cp.ConfigProvidePath, cp);
+            ConfigFile cf = new ConfigFile();
+            if (cf.ConstructConfigFile(fs, "gb2312"))
+            {
+                bResInfoLoad = cpResInfo.LoadTextFile(cf);
+            }
+            fs.Close();
         }
 
-        Debug.Log("完成所有配表打包");
+        if (bResInfoLoad)
+        {
+            CConfigManager mgrConfig = new CConfigManager();
+            mgrConfig.Initialize();
+            Dictionary<uint, IConfigProvider>.Enumerator iter = mgrConfig.GetConfigProvidersIter();
+            while (iter.MoveNext())
+            {
+                IConfigProvider cp = iter.Current.Value;
+                CResourceInfo resInfo = cpResInfo.GetResourceInfo(cp.ResId);
+                if (resInfo == null)
+                {
+                    Debug.LogError("没有找到配置表的资源信息，ResId" + cp.ResId);
+                    continue;
+                }
+
+                PacketConfigAssetsBundle(resInfo.strResName, cp.ConfigProvidePath, cp);
+            }
+
+            #region 清理游戏本地数据
+            DeleteDirectory(Application.dataPath + "/StreamingAssets/Config/", true);
+            #endregion
+
+            Debug.Log("完成所有配表打包");
+        }
     }
 
     //打包资源
@@ -142,6 +201,11 @@ public class PackAssetBundle : Editor
             }
             fs.Close();
         }
+
+        DeleteDirectory(Application.dataPath + "/ExportedAssets/Character/", true);
+        DeleteDirectory(Application.dataPath + "/ExportedAssets/Item/", true);
+        DeleteDirectory(Application.dataPath + "/ExportedAssets/Scene/", true);
+        DeleteDirectory(Application.dataPath + "/ExportedAssets/UI/", true);
 
         if (bResInfoLoad)
         {
@@ -203,6 +267,13 @@ public class PackAssetBundle : Editor
         //BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/aa", buildMap);
 
         //BuildPipeline.BuildAssetBundles(Application.dataPath + "/ExportedAssets/aa");
+
+        #region 清理游戏本地数据
+        DeleteDirectory(Application.dataPath + "/StreamingAssets/Character/", true);
+        DeleteDirectory(Application.dataPath + "/StreamingAssets/Item/", true);
+        DeleteDirectory(Application.dataPath + "/StreamingAssets/Scene/", true);
+        DeleteDirectory(Application.dataPath + "/StreamingAssets/UI/", true);
+        #endregion
 
         Debug.Log("完成打包资源");
     }

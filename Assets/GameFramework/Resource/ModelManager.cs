@@ -44,6 +44,28 @@ public class CModelManager : Singletone//MonoBehaviour
             res.OnResourceLoaded += delegResLoad;
         }
     }
+    public void GetModel(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad, out IEnumerator corotineLoading)
+    {
+        //查询是否已有实例化的样本
+        GameObject goRes;
+        if (m_dictModel.TryGetValue(uModelId, out goRes))
+        {
+            corotineLoading = null;
+
+            //拷贝副本
+            goRes = GameObject.Instantiate(goRes);
+
+            //返回结果
+            delegModelLoad(goRes);
+        }
+        else
+        {
+            CResource res = SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(uModelId
+                    , FinishLoadingModel
+                    , out corotineLoading);
+            res.OnResourceLoaded += delegResLoad;
+        }
+    }
 
     private void FinishLoadingModel(CResource res)
     {

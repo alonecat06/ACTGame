@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ActionCommandAI : MonoBehaviour
 {
+    private CCharacter m_Character;
+
 //    private ActionLogicController m_LogicController;
 
 //    void Start()

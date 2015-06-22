@@ -2,15 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ClientSelectUI : MonoBehaviour 
+public class ClientSelectUI : UIPanelBase 
 {
     PhotoStage psSinglePlayer;
 
-    private bool m_bTakeWeapon = true;
-    private bool m_bTakeShield = true;
-    private bool m_bTakeShoulderArmor = true;
+    CharacterSetting m_SettingMaster;
 
-	void Start () 
+	public override void Start () 
     {
         SetupOnClickListener("btnMale", OnClickMaleBtn);
         SetupOnClickListener("btnFemale", OnClickFemaleBtn);
@@ -34,7 +32,26 @@ public class ClientSelectUI : MonoBehaviour
                     Debug.LogError("没有得到PhotoStage脚本");
                 }
             }
-        }     
+        }
+
+        base.Start();
+    }
+
+    public override bool InitializeUI()
+    {
+        CharacterSetting playerSetting = SingletonManager.Inst.GetManager<CCharacterManager>().GetPlayerSetting(0);
+        if (playerSetting == null)
+        {
+            return false;
+        }
+
+        OnChangePlayer(playerSetting.m_uCharaterId);
+        foreach (uint uEquipId in playerSetting.m_dictMountPos.Values)
+        {
+            OnChangePlayerWeapon(uEquipId);
+        }
+
+        return true;
     }
 
     private void SetupOnClickListener(string strCtrlName, UUIEventListener.VoidDelegate deleg)
@@ -54,96 +71,104 @@ public class ClientSelectUI : MonoBehaviour
     {
         OnChangePlayer(1);
     }
-    private void OnChangePlayer(int iPlayerType)
+    private void OnChangePlayer(uint uCharaterId)
     {
-        if (iPlayerType == 0)
+        CharacterSetting playerSetting = SingletonManager.Inst.GetManager<CCharacterManager>().GetPlayerSetting(0);
+        if (uCharaterId == 0)
         {
             psSinglePlayer.LoadCharaterToStage(CharaterType.CharaterType_Player, 100);
         } 
-        else if (iPlayerType == 1)
+        else if (uCharaterId == 1)
         {
             psSinglePlayer.LoadCharaterToStage(CharaterType.CharaterType_Player, 101);
         }
-        m_bTakeWeapon = false;
-        m_bTakeShield = false;
-        m_bTakeShoulderArmor = false;
+        playerSetting.m_uCharaterId = uCharaterId;
+        //m_bTakeWeapon = false;
+        //m_bTakeShield = false;
+        //m_bTakeShoulderArmor = false;
     }
 
     private void OnClickWeaponFishBtn(GameObject go)
     {
-        OnChangePlayerWeapon(0, m_bTakeWeapon);
-        m_bTakeWeapon = !m_bTakeWeapon;
+        OnChangePlayerWeapon(1);
     }
     private void OnClickWeaponSwordBtn(GameObject go)
     {
-        OnChangePlayerWeapon(1, m_bTakeWeapon);
-        m_bTakeWeapon = !m_bTakeWeapon;
+        OnChangePlayerWeapon(2);
     }
     private void OnClickWeaponSpadeBtn(GameObject go)
     {
-        OnChangePlayerWeapon(2, m_bTakeShield);
-        m_bTakeShield = !m_bTakeShield;
+        OnChangePlayerWeapon(20);
     }
     private void OnClickWeaponWandBtn(GameObject go)
     {
-        OnChangePlayerWeapon(3, m_bTakeShoulderArmor);
-        m_bTakeShoulderArmor = !m_bTakeShoulderArmor;
+        OnChangePlayerWeapon(40);
     }
-    private void OnChangePlayerWeapon(int iWeaponId, bool bTake)
+    private void OnChangePlayerWeapon(uint uEquipId)
     {
         GameObject goPlayer = psSinglePlayer.GetCharaterOnStage();
         if (goPlayer == null 
-            || goPlayer.GetComponent<PlayerAppearanceController>() == null)
+            || goPlayer.GetComponent<CharacterAppearance>() == null)
         {
             Debug.LogError("不能得到人物外观脚本");
             return;
         }
 
-        PlayerAppearanceController ctrlAppear = goPlayer.GetComponent<PlayerAppearanceController>();
+        CharacterAppearance ctrlAppear = goPlayer.GetComponent<CharacterAppearance>();
         ActionCommandInput ctrlAnimation = goPlayer.GetComponent<ActionCommandInput>();
 
-        if (iWeaponId == 0)
+        EquipCfg cfgEquip = SingletonManager.Inst.GetManager<CConfigManager>().GetConfigProvider<EquipCfgConfigProvider>().GetEquipCfg(uEquipId);
+        if (cfgEquip == null)
         {
-            if (bTake)
+            return;
+        }
+
+        CharacterSetting playerSetting = SingletonManager.Inst.GetManager<CCharacterManager>().GetPlayerSetting(0);
+        if (playerSetting == null)
+        {
+            return;
+        }
+
+        if (cfgEquip.eEquipType == EquipType.EquipType_RHandWeapon)
+        {
+            uint uCurrEquipId;
+            if (!playerSetting.m_dictMountPos.TryGetValue(EquipType.EquipType_RHandWeapon, out uCurrEquipId) || uCurrEquipId != uEquipId)
             {
-                ctrlAppear.ChangeWeapon(500);
+                ctrlAppear.ChangeWeapon(cfgEquip.uResId);
+                playerSetting.m_dictMountPos[EquipType.EquipType_RHandWeapon] = uEquipId;
             } 
             else
             {
                 ctrlAppear.ChangeWeapon(0);
+                playerSetting.m_dictMountPos.Remove(EquipType.EquipType_RHandWeapon);
             }
         }
-        else if (iWeaponId == 1)
+        else if (cfgEquip.eEquipType == EquipType.EquipType_LHandShield)
         {
-            if (bTake)
+            uint uCurrEquipId;
+            if (!playerSetting.m_dictMountPos.TryGetValue(EquipType.EquipType_LHandShield, out uCurrEquipId) || uCurrEquipId != uEquipId)
             {
-                ctrlAppear.ChangeWeapon(600);
-            } 
-            else
-            {
-                ctrlAppear.ChangeWeapon(0);
-            }
-        }
-        else if (iWeaponId == 2)
-        {
-            if (bTake)
-            {
-                ctrlAppear.ChangeShield(700);
+                ctrlAppear.ChangeShield(cfgEquip.uResId);
+                playerSetting.m_dictMountPos[EquipType.EquipType_LHandShield] = uEquipId;
             } 
             else
             {
                 ctrlAppear.ChangeShield(0);
+                playerSetting.m_dictMountPos.Remove(EquipType.EquipType_LHandShield);
             }
         }
-        else if (iWeaponId == 3)
+        else if (cfgEquip.eEquipType == EquipType.EquipType_LArmShield)
         {
-            if (bTake)
+            uint uCurrEquipId;
+            if (!playerSetting.m_dictMountPos.TryGetValue(EquipType.EquipType_LArmShield, out uCurrEquipId) || uCurrEquipId != uEquipId)
             {
-                ctrlAppear.ChangeShoulderArm(800);
+                ctrlAppear.ChangeShoulderArm(cfgEquip.uResId);
+                playerSetting.m_dictMountPos[EquipType.EquipType_LArmShield] = uEquipId;
             } 
             else
             {
                 ctrlAppear.ChangeShoulderArm(0);
+                playerSetting.m_dictMountPos.Remove(EquipType.EquipType_LArmShield);
             }
         }
 

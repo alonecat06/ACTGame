@@ -12,10 +12,10 @@ public class ResVerConfigProvider : IConfigProvider
     {
         get { return ""; }
     }
-    public override string ConfigProvideName
-    {
-        get { return "ResVer"; }
-    }
+    //public override string ConfigProvideName
+    //{
+    //    get { return "ResVer"; }
+    //}
     public override uint ResId
     {
         get { return 5000; }

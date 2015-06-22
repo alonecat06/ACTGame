@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnterGameUI : MonoBehaviour
+public class EnterGameUI : UIPanelBase
 {
-    void Start()
+    public override void Start()
     {
         GameObject btnClient = GameObject.Find("btnClient");
         if (btnClient != null)
@@ -16,6 +16,8 @@ public class EnterGameUI : MonoBehaviour
         {
             UUIEventListener.Get(btnServer).onClick = OnClickServerBtn;
         }
+
+        base.Start();
     }
 
     private void OnClickClientBtn(GameObject go)
