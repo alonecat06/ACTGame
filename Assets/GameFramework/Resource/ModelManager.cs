@@ -1,29 +1,17 @@
-﻿using UnityEngine;
+﻿//*******************************************************
+//                       CModelManager
+//负责功能:确保同一个模型只有一个资源被加载，场景中的都是它的副本
+//********************************************************
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-//*******************************************************
-//模型管理器   
-//目的：确保同一个模型只有一个资源被加载
-//      场景中的都是它的副本
-//********************************************************
 
 public delegate void ModelLoaded(GameObject go);
 
-public class CModelManager : Singletone//MonoBehaviour
+public class CModelManager : Singletone
 {
     private Dictionary<uint, GameObject> m_dictModel = new Dictionary<uint, GameObject>();
-
-    //void Start()
-    //{
-
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
 
     public void GetModel(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad)
     {

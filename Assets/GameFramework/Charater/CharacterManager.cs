@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿//**********************************************************************
+//                         CCharacterManager
+//负责功能:
+//  1. 场景中的人物管理
+//**********************************************************************
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class CCharacterManager : Singletone
 {
     public List<CharacterSetting> listPlayerSetting = new List<CharacterSetting>();
-
     public Dictionary<uint, CCharacter> dictCharacterInScene = new Dictionary<uint, CCharacter>();
-    //public uint m_uMasterHandle;
 
     private uint m_uHandleCount;
+    private uint m_uMasterHandle;
+
+    public uint MasterHandle
+    {
+        get { return m_uMasterHandle; }
+        set { m_uMasterHandle = value; }
+    }
 
     public override bool InitializeData()
     {
@@ -18,7 +28,9 @@ public class CCharacterManager : Singletone
         return true;
     }
 
-    public void GetCharacterGameObject(uint uModelId, ResourceLoaded delegResLoad, ModelLoaded delegModelLoad)
+    public void GetCharacterGameObject(uint uModelId
+                                        , ResourceLoaded delegResLoad
+                                        , ModelLoaded delegModelLoad)
     {
         SingletonManager.Inst.GetManager<CModelManager>().GetModel(uModelId, delegResLoad, delegModelLoad);
     }
@@ -43,16 +55,14 @@ public class CCharacterManager : Singletone
         return null;
     }
 
-    //public CCharacter CreateCharacter()
-    //{
-    //    dictCharacterInScene.Add
-    //}
-    //public CCharacter CreatePlayer()
-    //{
-    //    return dictCharacterInScene[0];
-    //}
+    public CCharacter GetMaster()
+    {
+        return GetCharacterByHandle(MasterHandle);
+    }
 
-    public uint CreateOrGetCharaterToScene(CharacterSetting settingChar, EntityLoaded entityLoaded, out IEnumerator corotineLoading)
+    public uint CreateCharaterToScene(CharacterSetting settingChar
+                                        , EntityLoaded entityLoaded
+                                        , out IEnumerator corotineLoading)
     {        
         CCharacter character = new CCharacter(settingChar);
         character.m_Handle = m_uHandleCount++;
@@ -68,37 +78,4 @@ public class CCharacterManager : Singletone
 
         return character.m_Handle;
     }
-
-    //private void FinishLoadingPlayer(CResource res)
-    //{
-    //    GameObject goCharacter = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));// res.MainAsset as GameObject;   
-
-    //    if (goCharacter == null)
-    //    {
-    //        Debug.LogError("加载不了主角：" + res.ResId);
-    //    }
-    //    goCharacter = GameObject.Instantiate(goCharacter);
-
-    //    CCharacter character;
-    //    if (dictCharacterInScene.TryGetValue(0, out character))
-    //    {
-    //        character.m_goCharacter = goCharacter;
-    //        character.m_Appearance = goCharacter.GetComponent<CharacterAppearance>();
-    //        character.m_Appearance.SetupCharacter(character.m_Setting);
-    //        character.m_trans = goCharacter.transform;
-    //    }
-
-    //    SetPlayerToScene(goCharacter);
-    //}
-    //private void SetPlayerToScene(GameObject goCharacter)
-    //{
-    //    GameObject goSceneRoot = SingletonManager.Inst.GetManager<CSceneManager>().SceneRoot;
-    //    SceneCfg cfgScene = SingletonManager.Inst.GetManager<CSceneManager>().SceneConfig;
-
-    //    goCharacter.transform.SetParent(goSceneRoot.transform);
-    //    goCharacter.transform.localPosition = new Vector3(cfgScene.fEnterX, cfgScene.fEnterY, cfgScene.fEnterZ);
-    //    goCharacter.transform.localRotation = new Quaternion(0, 0, 0, 1);
-
-    //    SingletonManager.Inst.GetManager<CCharacterManager>().AddCharacterToScene(goCharacter);
-    //}
 }

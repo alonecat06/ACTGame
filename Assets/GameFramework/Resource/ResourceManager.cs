@@ -6,14 +6,13 @@
 //  3. 得到加载资源的进度
 //  4. 依赖资源自动加载（本地加载/网上下载）
 //**********************************************************************
-//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-class CResourceManager : Singletone//MonoBehaviour
+class CResourceManager : Singletone
 {
     //网上资源总表
     private Dictionary<uint, uint> m_dictNetResVer = new Dictionary<uint, uint>();

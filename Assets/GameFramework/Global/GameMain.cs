@@ -38,6 +38,16 @@ public class GameMain : MonoBehaviour
         SingletonManager.Inst.Update();
     }
 
+    void LateUpdate()
+    {
+        SingletonManager.Inst.LateUpdate();
+    }
+
+    void FixedUpdate()
+    {
+        SingletonManager.Inst.FixedUpdate();
+    }
+
     void OnApplicationQuit()
     {
         SingletonManager.Inst.Uninitialize();

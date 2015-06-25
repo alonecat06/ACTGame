@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//public enum UIId
-//{
-//    UIId_EnterGame,
-//    UIId_ClientSelect,
-//}
+public enum UIId
+{
+    UIId_EnterGame = 1,
+    UIId_ClientSelect,
+    UIId_PlayerManipulate,
+}
 
 public class CUIManager : Singletone
 {
@@ -30,7 +31,7 @@ public class CUIManager : Singletone
     public override bool InitializeData()
     {
         //加载第一个界面
-        LoadUI(1, LoadAnimation.LoadAnimation_WholeScreen);
+        LoadUI(UIId.UIId_EnterGame, LoadAnimation.LoadAnimation_WholeScreen);
         return true;
     }
 
@@ -39,11 +40,12 @@ public class CUIManager : Singletone
     //    m_uiRoot = goUiRoot;
     //}
 
-    public CResource LoadUI(uint uUIId, LoadAnimation eLoadAnimation)
+    public CResource LoadUI(UIId eUIId, LoadAnimation eLoadAnimation)
     {
         //显示加载动画
         SingletonManager.Inst.GameMain.OpenLoadingAnimation(eLoadAnimation);
 
+        uint uUIId = (uint)eUIId;
         return SingletonManager.Inst.GetManager<CResourceManager>().LoadResource(uUIId
             , FinishLoadingUI);
     }

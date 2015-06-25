@@ -21,6 +21,16 @@ public class Singletone
     {
         return true;
     }
+
+    public virtual bool LateUpdate()
+    {
+        return true;
+    }
+
+    public virtual bool FixedUpdate()
+    {
+        return true;
+    }
 }
 
 public class SingletonManager
@@ -32,20 +42,9 @@ public class SingletonManager
     }
 
     private Dictionary<Type, Singletone> m_dictManager = new Dictionary<Type, Singletone>();
-    //private List<Singletone> m_dictManager = new List<Singletone>();
 
     protected SingletonManager()
     {
-        //m_dictManager.Add(new CTaskManager());
-        //m_dictManager.Add(new CResourceManager());
-        //m_dictManager.Add(new CConfigManager());
-        //m_dictManager.Add(new CUIManager());
-        //m_dictManager.Add(new CModelManager());
-        //m_dictManager.Add(new CCharacterManager());
-        //m_dictManager.Add(new CSceneManager());
-        //m_dictManager.Add(new CCameraManager());
-        //m_dictManager.Add(new CInputManager());
-
         m_dictManager.Add(typeof(CTaskManager), new CTaskManager());
 
         m_dictManager.Add(typeof(CResourceManager), new CResourceManager());
@@ -75,10 +74,6 @@ public class SingletonManager
     public void Initialize(GameMain main)
     {
         m_GameMain = main;
-        //for (int i = 0; i < m_dictManager.Count; ++i)
-        //{
-        //    m_dictManager[i].Initialize();
-        //}
         foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
         {
             kvpMgr.Value.Initialize();
@@ -87,10 +82,6 @@ public class SingletonManager
 
     public void InitializeData()
     {
-        //for (int i = 0; i < m_dictManager.Count; ++i)
-        //{
-        //    m_dictManager[i].InitializeData();
-        //}
         foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
         {
             kvpMgr.Value.InitializeData();
@@ -99,10 +90,6 @@ public class SingletonManager
 
     public void Uninitialize()
     {
-        //for (int i = 0; i < m_dictManager.Count; ++i)
-        //{
-        //    m_dictManager[i].Uninitialize();
-        //}
         foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
         {
             kvpMgr.Value.Uninitialize();
@@ -111,56 +98,30 @@ public class SingletonManager
 
     public void Update()
     {
-        //for (int i = 0; i < m_dictManager.Count; ++i)
-        //{
-        //    m_dictManager[i].Update();
-        //}
         foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
         {
             kvpMgr.Value.Update();
         }
     }
 
+    public void LateUpdate()
+    {
+        foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
+        {
+            kvpMgr.Value.LateUpdate();
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        foreach (KeyValuePair<Type, Singletone> kvpMgr in m_dictManager)
+        {
+            kvpMgr.Value.FixedUpdate();
+        }
+    }
+
     public T GetManager<T>() where T : Singletone
     {
-        //if (typeof(T) == typeof(CTaskManager))
-        //{
-        //    return m_dictManager[0] as T;
-        //}
-        //else if (typeof(T) == typeof(CResourceManager))
-        //{
-        //    return m_dictManager[1] as T;
-        //}
-        //else if (typeof(T) == typeof(CConfigManager))
-        //{
-        //    return m_dictManager[2] as T;
-        //}
-        //else if (typeof(T) == typeof(CUIManager))
-        //{
-        //    return m_dictManager[3] as T;
-        //}
-        //else if (typeof(T) == typeof(CModelManager))
-        //{
-        //    return m_dictManager[4] as T;
-        //}
-        //else if (typeof(T) == typeof(CCharacterManager))
-        //{
-        //    return m_dictManager[5] as T;
-        //}
-        //else if (typeof(T) == typeof(CSceneManager))
-        //{
-        //    return m_dictManager[6] as T;
-        //}
-        //else if (typeof(T) == typeof(CCameraManager))
-        //{
-        //    return m_dictManager[7] as T;
-        //}
-        //else if (typeof(T) == typeof(CInputManager))
-        //{
-        //    return m_dictManager[8] as T;
-        //}
-        //return null;
-
         return m_dictManager[typeof(T)] as T;
     }
 }

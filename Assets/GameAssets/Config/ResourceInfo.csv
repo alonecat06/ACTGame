@@ -2,6 +2,7 @@ ResId,ResName,MaintainType,CacheTime,ResPath,ResType
 //资源ID,资源名称,资源保留类型,资源缓存时间,资源路径,资源类型 0material 1prefab
 1,uiEnterGame,1,0,UI/,1
 2,uiClientSelect,1,0,UI/,1
+3,uiPlayerManipulate,1,0,UI/,1
 100,Player_1_male,0,10,Character/,1
 101,Player_1_female,0,10,Character/,1
 500,wp_blune04,0,10,Item/,1

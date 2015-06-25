@@ -81,58 +81,9 @@ public class ActionLogicController
             {
                 float turnSpeed = 6;
                 transCharater.Rotate(new Vector3(0, fLocHoz * (turnSpeed / 2.0f), 0));
-                //fLocVet = Mathf.Clamp(fLocVet, 0, 1);
                 Vector3 _velocity = new Vector3(0, 0, fLocVet);
                 _velocity = transCharater.TransformDirection(_velocity) * m_fRunSpeed;
                 m_CharaterController.Move(_velocity * Time.deltaTime);
-
-                //float antiBunny = 0.75f;
-                //float input_modifier = (fLocHoz != 0.0f && fLocVet != 0.0f) ? 0.7071f : 1.0f;
-                //Vector3 _velocity = new Vector3(fLocHoz * input_modifier, -antiBunny, fLocVet * input_modifier);
-                //_velocity = transCharater.TransformDirection(_velocity) * m_fRunSpeed;
-                //m_CharaterController.Move(_velocity * Time.deltaTime);
-
-                //移动角色
-                //if (m_vec3RunDirect != vec3Input)
-                //{
-                //    m_vec3RunDirect = vec3Input;
-                //    m_vec3RunDirect += transCharater.forward;
-                //    transCharater.LookAt(m_vec3RunDirect);
-
-                //float cos = Vector3.Normalize(vec3Input).x;
-                //Debug.Log("转过角度" + Mathf.Acos(cos) * 180 / Mathf.PI);
-                //}
-
-                //Vector3 targetDir = fLocHoz * transCharater.right + fLocVet * transCharater.forward;
-                //transCharater.LookAt(new Vector3(fLocHoz, 0, fLocVet));
-                //m_CharaterController.SimpleMove(targetDir * m_fRunSpeed);
-
-                //float smooth = 1f;
-                //float tiltAngle = 359.0f;
-                //float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
-                //float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
-                //Quaternion target = Quaternion.Euler(tiltAroundX, tiltAroundZ, 0);
-                //transCharater.rotation = Quaternion.Slerp(transCharater.rotation, target, Time.deltaTime * smooth);
-                //m_CharaterController.SimpleMove(transCharater.forward * m_fRunSpeed);
-
-                //float smooth = 1f;
-
-                //float forwardSpeed = Input.GetAxis("Vertical") * m_fRunSpeed;
-                //float tiltAngle = 359.0f;
-                //float tiltAroundY = Input.GetAxis("Horizontal") * tiltAngle;
-
-                //Quaternion target = Quaternion.Euler(0, tiltAroundY, 0);
-                //transCharater.rotation = Quaternion.Slerp(transCharater.rotation, target, 0.05f);
-                //if (forwardSpeed > 0)
-                //{
-                //    //Quaternion target = Quaternion.Euler(0, tiltAroundY, 0);
-                //    //transCharater.rotation = Quaternion.Slerp(transCharater.rotation, target, 0.05f);
-                //    m_CharaterController.SimpleMove(transCharater.forward * forwardSpeed);
-                //} 
-                ////else
-                ////{
-                ////    transCharater.LookAt(new Vector3(fLocHoz, 0, fLocVet));
-                ////}
 
                 //播放动画
                 m_AnimatorController.ActRun(bRun, m_fPlaySpeed);

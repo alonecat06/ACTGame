@@ -5,6 +5,8 @@ using UnityEngine;
 class PhotoStage : MonoBehaviour
 {
     private GameObject m_goCharaterPos;
+
+    private ActionCommandInput m_cmdInput;
     private GameObject m_goCharaterModel;
 
     void Start()
@@ -33,9 +35,14 @@ class PhotoStage : MonoBehaviour
         return m_goCharaterModel;
     }
 
+    public void Attack01()
+    {
+        m_cmdInput.m_LogicController.Attack01();
+    }
+
     private void LoadedCharaterRes(CResource res)
     {
-        GameObject goCharacter = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));// res.MainAsset as GameObject;   
+        GameObject goCharacter = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject));
 
         if (goCharacter == null)
         {
@@ -53,9 +60,10 @@ class PhotoStage : MonoBehaviour
         goCharacter.transform.localRotation = new Quaternion(0, 0, 0, 1);
         goCharacter.transform.localScale = new Vector3(1, 1, 1);
 
-        Destroy(goCharacter.GetComponent<CharacterController>());
-        goCharacter.GetComponent<ActionCommandInput>().NeedUpdate = false;
+        goCharacter.GetComponent<CharacterController>().enabled = false;
 
         m_goCharaterModel = goCharacter;
+
+        m_cmdInput = new ActionCommandInput(m_goCharaterModel);
     }
 }

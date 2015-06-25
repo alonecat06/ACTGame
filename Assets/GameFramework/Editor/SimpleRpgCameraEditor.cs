@@ -74,9 +74,9 @@ public class SimpleRpgCameraEditor : Editor
 			_self.targetTag = EditorGUILayout.TextField(_content, _self.targetTag);
 			_self.target = (Transform)EditorGUILayout.ObjectField("Target", _self.target, typeof(Transform), allowSceneObjects);
 			_self.targetOffset = EditorGUILayout.Vector3Field("Target Offset", _self.targetOffset);
-			_self.smoothOffset = EditorGUILayout.Toggle("Smooth Offset", _self.smoothOffset);
+			_self.m_bSmoothOffset = EditorGUILayout.Toggle("Smooth Offset", _self.m_bSmoothOffset);
 
-			if(_self.smoothOffset)
+			if(_self.m_bSmoothOffset)
 			{
 				EditorGUI.indentLevel++;
 
@@ -85,8 +85,8 @@ public class SimpleRpgCameraEditor : Editor
 				EditorGUI.indentLevel--;
 			}
 
-			_self.relativeOffset = EditorGUILayout.Toggle("Relative Offset", _self.relativeOffset);
-			_self.useTargetAxis = EditorGUILayout.Toggle("Use Target Axis", _self.useTargetAxis);
+			_self.m_bRelativeOffset = EditorGUILayout.Toggle("Relative Offset", _self.m_bRelativeOffset);
+			_self.m_bUseTargetAxis = EditorGUILayout.Toggle("Use Target Axis", _self.m_bUseTargetAxis);
 
 			#endregion
 		}

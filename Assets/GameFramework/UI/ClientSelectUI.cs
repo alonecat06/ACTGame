@@ -115,7 +115,6 @@ public class ClientSelectUI : UIPanelBase
         }
 
         CharacterAppearance ctrlAppear = goPlayer.GetComponent<CharacterAppearance>();
-        ActionCommandInput ctrlAnimation = goPlayer.GetComponent<ActionCommandInput>();
 
         EquipCfg cfgEquip = SingletonManager.Inst.GetManager<CConfigManager>().GetConfigProvider<EquipCfgConfigProvider>().GetEquipCfg(uEquipId);
         if (cfgEquip == null)
@@ -172,7 +171,7 @@ public class ClientSelectUI : UIPanelBase
             }
         }
 
-        ctrlAnimation.m_LogicController.Attack01();
+        psSinglePlayer.Attack01();
     }
 
     private void OnClickLevel1(GameObject go)

@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿//**********************************************************************
+//                         CSceneManager
+//负责功能:
+//  1. 场景加载，包括地形/天空盒/天气/静态物品/npc/动态角色的加载
+//  2. 
+//**********************************************************************
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,7 +14,7 @@ public class CSceneManager : Singletone
     private GameObject m_goWeather;
     private SceneCfg m_cfgScene;
 
-    private uint m_uMasterHandle;
+    //private uint m_uMasterHandle;
 
     public override bool Initialize()
     {
@@ -35,6 +41,10 @@ public class CSceneManager : Singletone
     {
         get { return m_cfgScene; }
     }
+    //public uint MasterHandle
+    //{
+    //    get { return m_uMasterHandle; }
+    //}
 
     public void LoadScene(uint iSceneId)
     {
@@ -120,7 +130,7 @@ public class CSceneManager : Singletone
 
         //加载玩家
         CSubTask subTask2 = new CSubTask();
-        m_uMasterHandle = mgrCharacter.CreateOrGetCharaterToScene(mgrCharacter.GetPlayerSetting(0), SetPlayerToScene, out subTask2.routine);
+        mgrCharacter.MasterHandle = mgrCharacter.CreateCharaterToScene(mgrCharacter.GetPlayerSetting(0), SetPlayerToScene, out subTask2.routine);
         taskLoadObject.AddTask(subTask2);
 
         taskLoadObject.OnTaskFinished += FinishSceneLoading;
@@ -132,10 +142,6 @@ public class CSceneManager : Singletone
         entity.m_trans.SetParent(m_goSceneRoot.transform);
         entity.m_trans.position = new Vector3(m_cfgScene.fEnterX, m_cfgScene.fEnterY, m_cfgScene.fEnterZ);
         entity.m_trans.localRotation = new Quaternion(0, 0, 0, 1);
-
-        entity.m_goCharacter.GetComponent<ActionCommandInput>().NeedUpdate = true;
-
-        //entity.m_trans.localScale = new Vector3(1, 1, 1);
     }
 
     //场景加载完成回调
@@ -144,7 +150,11 @@ public class CSceneManager : Singletone
         //结束加载进度条
         SingletonManager.Inst.GameMain.CloseLoadingAnimation();
 
-        CCharacter player = SingletonManager.Inst.GetManager<CCharacterManager>().GetCharacterByHandle(m_uMasterHandle);
+        CCharacter player = SingletonManager.Inst.GetManager<CCharacterManager>().GetMaster();
         SingletonManager.Inst.GetManager<CCameraManager>().SetTarget(player.m_goCharacter);
+        SingletonManager.Inst.GetManager<CInputManager>().SetMaster(player);
+
+        //加载玩家操作界面
+        SingletonManager.Inst.GetManager<CUIManager>().LoadUI(UIId.UIId_PlayerManipulate, LoadAnimation.LoadAnimation_Icon);
     }
 }

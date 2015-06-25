@@ -19,7 +19,6 @@ public enum MouseButton
 public class CCameraManager : Singletone
 {
     private GameObject m_goMainCamera;
-    private Transform m_transMainCamera;
 
     public override bool Initialize()
     {
@@ -29,57 +28,19 @@ public class CCameraManager : Singletone
             Debug.LogError("摄像机节点为空");
             return false;
         }
-        m_transMainCamera = m_goMainCamera.transform;
-
-        //m_goMainCamera.AddComponent<SimpleRpgCamera>();
 
         return true;
     }
 
     public bool SetTarget(GameObject goTarget)
     {
-        SimpleRpgCamera camera = m_goMainCamera.AddComponent<SimpleRpgCamera>();
+        SimpleRpgCamera camera = m_goMainCamera.GetComponent<SimpleRpgCamera>();
+        camera.enabled = true;
         camera.target = goTarget.transform;
         camera.targetOffset.y = 2.1f;
         camera.lockToTarget = true;
-        camera.useTargetAxis = true;
+        camera.m_bUseTargetAxis = true;
 
         return true;
     }
-
-    //public override bool Uninitialize()
-    //{
-    //    GameObject.Destroy(m_goCoroutine);
-    //    return true;
-    //}
-
-    //public override bool Update()
-    //{
-    //    int iCount = m_listTask.Count;
-    //    for (int i = iCount -1; i >= 0; --i)
-    //    {
-    //        if (m_listTask[i].CheckFinishAllSubTask())
-    //        {
-    //            m_listTask[i].FinishTask();
-    //            m_listTask.Remove(m_listTask[i]);
-    //        }
-    //    }
-    //    return true;
-    //}
-
-    //public void StartCoroutine(IEnumerator routine)
-    //{
-    //    m_mbCoroutine.StartCoroutine(routine);
-    //}
-
-    //public void StartTask(CTask task)
-    //{
-    //    int iCount = task.listSubTask.Count;
-    //    for (int i = 0; i < iCount; ++i)
-    //    {
-    //        m_mbCoroutine.StartCoroutine(task.listSubTask[i].StartSubTask());
-    //    }
-
-    //    m_listTask.Add(task);
-    //}
 }

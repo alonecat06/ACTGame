@@ -46,12 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GameFramework\AI\ActionCommandAI.cs" />
+     <Compile Include="Assets\GameFramework\AI\ActionCommandFlockAI.cs" />
      <Compile Include="Assets\GameFramework\Camera\CameraManager.cs" />
      <Compile Include="Assets\GameFramework\Camera\SimpleRpgCamera.cs" />
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionAnimationController.cs" />
-     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandAI.cs" />
-     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandFlockAI.cs" />
-     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionCommandInput.cs" />
      <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionLogicController.cs" />
      <Compile Include="Assets\GameFramework\Charater\Character.cs" />
      <Compile Include="Assets\GameFramework\Charater\CharacterAppearance.cs" />
@@ -68,6 +67,7 @@
      <Compile Include="Assets\GameFramework\Global\GameMain.cs" />
      <Compile Include="Assets\GameFramework\Global\GlobalDef.cs" />
      <Compile Include="Assets\GameFramework\Global\SingletonManager.cs" />
+     <Compile Include="Assets\GameFramework\Input\ActionCommandInput.cs" />
      <Compile Include="Assets\GameFramework\Input\InputManager.cs" />
      <Compile Include="Assets\GameFramework\Resource\ModelManager.cs" />
      <Compile Include="Assets\GameFramework\Resource\Resource.cs" />
@@ -76,6 +76,7 @@
      <Compile Include="Assets\GameFramework\UI\ClientSelectUI.cs" />
      <Compile Include="Assets\GameFramework\UI\EnterGameUI.cs" />
      <Compile Include="Assets\GameFramework\UI\LoadingUI.cs" />
+     <Compile Include="Assets\GameFramework\UI\PlayerManipulateUI.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\PhotoStage.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\UIManager.cs" />
      <Compile Include="Assets\GameFramework\UI\UICommon\UIPanelBase.cs" />
