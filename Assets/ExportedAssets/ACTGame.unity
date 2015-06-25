@@ -102,7 +102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &115348909
 RectTransform:
   m_ObjectHideFlags: 0
@@ -457,6 +457,7 @@ GameObject:
   - 92: {fileID: 1222738672}
   - 124: {fileID: 1222738671}
   - 81: {fileID: 1222738670}
+  - 114: {fileID: 1222738675}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -530,6 +531,117 @@ Transform:
   - {fileID: 376311265}
   m_Father: {fileID: 2055872530}
   m_RootOrder: 0
+--- !u!114 &1222738675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222738669}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2b0f563fa3dfe4c8e67102c407960c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionAlphaLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  collisionBuffer: .200000003
+  collisionAlpha: .150000006
+  collisionFadeSpeed: 10
+  target: {fileID: 0}
+  targetTag: 
+  targetOffset: {x: 0, y: 0, z: 0}
+  m_bSmoothOffset: 1
+  smoothOffsetSpeed: 5
+  m_bRelativeOffset: 1
+  m_bUseTargetAxis: 0
+  allowMouseDrag: 0
+  mouseDragButton: 20
+  mouseDragSensitivity: {x: 15, y: 15}
+  allowEdgeMovement: 1
+  allowEdgeKeys: 0
+  lockToTarget: 0
+  limitBounds: 0
+  boundOrigin: {x: 0, y: 0, z: 0}
+  boundSize: {x: 0, y: 0, z: 0}
+  edgePadding: 20
+  scrollSpeed: 10
+  keyFollowTarget: 32
+  keyMoveUp: 119
+  keyMoveDown: 115
+  keyMoveLeft: 97
+  keyMoveRight: 100
+  showEdges: 0
+  edgeTexture: {fileID: 0}
+  allowRotation: 1
+  invertRotationX: 0
+  invertRotationY: 0
+  mouseLook: 0
+  disableWhileUnlocked: 1
+  useJoystick: 0
+  joystickHorizontalAxis: JoystickHorizontal
+  joystickVerticalAxis: JoystickVertical
+  allowRotationLeft: 1
+  allowRotationMiddle: 1
+  allowRotationRight: 1
+  originRotation: {x: 0, y: 0}
+  returnToOrigin: 0
+  stayBehindTarget: 0
+  setOriginLeft: 0
+  setOriginMiddle: 0
+  setOriginRight: 0
+  minAngle: -85
+  maxAngle: 85
+  rotationSmoothing: 5
+  rotationSensitivity: {x: 5, y: 5}
+  lockCursor: 1
+  lockLeft: 1
+  lockMiddle: 1
+  lockRight: 1
+  allowRotationKeys: 1
+  keyRotateUp: 261
+  keyRotateDown: 258
+  keyRotateLeft: 257
+  keyRotateRight: 259
+  rotationKeySensitivity: {x: 3, y: 3}
+  rotateObjects: 0
+  objectsToRotate: []
+  autoAddTargetToRotate: 0
+  rotateObjectsLeft: 0
+  rotateObjectsMiddle: 0
+  rotateObjectsRight: 0
+  allowZoom: 1
+  distance: 7
+  minDistance: 1
+  maxDistance: 30
+  zoomSpeed: 1
+  zoomSmoothing: 5
+  invertZoom: 0
+  fadeObjects: 0
+  fadeDistance: 1
+  objectsToFade: []
+  autoAddTargetToFade: 0
+  allowZoomKeys: 1
+  keyZoomIn: 278
+  keyZoomOut: 279
+  keyZoomDelay: .5
+  allowTouch: 1
+  touchSensitivity: .699999988
+  mobileRotationType: 2
+  mobileRotationDelay: .5
+  mobileSwipeActiveTime: .5
+  mobileSwipeMinDistance: 150
+  mobileSwipeRotationAmount: {x: 45, y: 45}
+  mobilePanType: 1
+  mobilePanningTouchCount: 3
+  mobilePanSwipeActiveTime: .5
+  mobilePanSwipeMinDistance: 150
+  mobilePanSwipeDistance: {x: 5, y: 5}
+  mobileZoomDeadzone: 7
+  mobileZoomSpeed: .25
 --- !u!1 &1242325023
 GameObject:
   m_ObjectHideFlags: 0
