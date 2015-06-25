@@ -19,6 +19,7 @@ public enum MouseButton
 public class CCameraManager : Singletone
 {
     private GameObject m_goMainCamera;
+    private SimpleRpgCamera m_Camera;
 
     public override bool Initialize()
     {
@@ -34,13 +35,18 @@ public class CCameraManager : Singletone
 
     public bool SetTarget(GameObject goTarget)
     {
-        SimpleRpgCamera camera = m_goMainCamera.GetComponent<SimpleRpgCamera>();
-        camera.enabled = true;
-        camera.target = goTarget.transform;
-        camera.targetOffset.y = 2.1f;
-        camera.lockToTarget = true;
-        camera.m_bUseTargetAxis = true;
+        m_Camera = m_goMainCamera.GetComponent<SimpleRpgCamera>();
+        m_Camera.enabled = true;
+        m_Camera.target = goTarget.transform;
+        m_Camera.targetOffset.y = 2.1f;
+        m_Camera.lockToTarget = true;
+        m_Camera.m_bUseTargetAxis = true;
 
         return true;
+    }
+
+    public void EnableCameraControl(bool bControl)
+    {
+        m_Camera.Controllable = bControl;
     }
 }

@@ -64,18 +64,12 @@ public class ActionCommandInput
     //}
 
     //void Update()
-    public void Move(float fKeyboardH, float fKeyboardV, bool bPressFire3)
+    public void Move(float fKeyboardH, float fKeyboardV, bool bRun)
     {
         float h = fKeyboardH;
         float v = fKeyboardV;
 
-        ////按键的取值，以虚拟杆中的值为优先
-        //if (Joystick.h != 0 || Joystick.v != 0)
-        //{
-        //    h = Joystick.h; v = Joystick.v;
-        //}
-
-        if (bPressFire3 && v >= 0.0f)
+        if (bRun && v >= 0.0f)
         {
             m_LogicController.Run(true, h, v, m_transPlayer);
         }
@@ -91,6 +85,26 @@ public class ActionCommandInput
                 m_LogicController.Walk(true, h, v, m_transPlayer);
             }
         }       
+    }
+
+    public void Attack(uint uSkillIdx)
+    {
+        if (uSkillIdx == 1)
+        {
+            m_LogicController.Attack01();
+        }
+        else if (uSkillIdx == 2)
+        {
+            m_LogicController.Attack02();
+        }
+        else if (uSkillIdx == 3)
+        {
+            m_LogicController.Attack03();
+        }
+        else if (uSkillIdx == 4)
+        {
+            m_LogicController.Attack04();
+        }
     }
 
     void LateUpdate()

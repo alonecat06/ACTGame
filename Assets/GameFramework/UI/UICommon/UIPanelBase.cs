@@ -16,4 +16,9 @@ public class UIPanelBase: MonoBehaviour
     {
         return true;
     }
+
+    public virtual void Update()
+    {
+
+    }
 }

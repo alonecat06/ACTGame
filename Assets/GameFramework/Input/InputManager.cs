@@ -47,9 +47,9 @@ public class CInputManager : Singletone
         {
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
-            bool bFire3 = Input.GetButton("Fire3");
+            bool bRun = Input.GetButton("Fire3");
 
-            m_cmdInput.Move(h, v, bFire3);
+            m_cmdInput.Move(h, v, bRun);
         }
 
         return true;
@@ -59,6 +59,20 @@ public class CInputManager : Singletone
     {
         m_cmdInput = new ActionCommandInput(master);
         m_bMasterSetup = true;
+    }
+
+    public void UIPressSkillBtn(uint uSlotIdx)
+    {
+        uint uSkillIdx = uSlotIdx;//以备日后技能与技能槽调整
+        m_cmdInput.Attack(uSkillIdx);
+    }
+
+    public void UIDragJoystick(float h, float v, bool bRun)
+    {
+        if (m_bMasterSetup)
+        {
+            m_cmdInput.Move(h, v, bRun);
+        }
     }
 
     //public float GetAxis(InputFlag eInput)

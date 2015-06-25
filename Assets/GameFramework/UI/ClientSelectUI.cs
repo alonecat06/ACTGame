@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.EventSystems; 
 
 public class ClientSelectUI : UIPanelBase 
 {
@@ -54,7 +55,7 @@ public class ClientSelectUI : UIPanelBase
         return true;
     }
 
-    private void SetupOnClickListener(string strCtrlName, UUIEventListener.VoidDelegate deleg)
+    private void SetupOnClickListener(string strCtrlName, UUIEventListener.PointerDelegate deleg)
     {
         GameObject btnServer = GameObject.Find(strCtrlName);
         if (btnServer != null)
@@ -63,11 +64,11 @@ public class ClientSelectUI : UIPanelBase
         }
     }
 
-    private void OnClickMaleBtn(GameObject go)
+    private void OnClickMaleBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayer(0);
     }
-    private void OnClickFemaleBtn(GameObject go)
+    private void OnClickFemaleBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayer(1);
     }
@@ -88,19 +89,19 @@ public class ClientSelectUI : UIPanelBase
         //m_bTakeShoulderArmor = false;
     }
 
-    private void OnClickWeaponFishBtn(GameObject go)
+    private void OnClickWeaponFishBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayerWeapon(1);
     }
-    private void OnClickWeaponSwordBtn(GameObject go)
+    private void OnClickWeaponSwordBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayerWeapon(2);
     }
-    private void OnClickWeaponSpadeBtn(GameObject go)
+    private void OnClickWeaponSpadeBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayerWeapon(20);
     }
-    private void OnClickWeaponWandBtn(GameObject go)
+    private void OnClickWeaponWandBtn(GameObject go, PointerEventData eventData)
     {
         OnChangePlayerWeapon(40);
     }
@@ -174,12 +175,12 @@ public class ClientSelectUI : UIPanelBase
         psSinglePlayer.Attack01();
     }
 
-    private void OnClickLevel1(GameObject go)
+    private void OnClickLevel1(GameObject go, PointerEventData eventData)
     {
         SingletonManager.Inst.GetManager<CUIManager>().UnloadUI(gameObject.name.GetHashCode());
         SingletonManager.Inst.GetManager<CSceneManager>().LoadScene(1);
     }
-    private void OnClickLevel2(GameObject go)
+    private void OnClickLevel2(GameObject go, PointerEventData eventData)
     {
         SingletonManager.Inst.GetManager<CUIManager>().UnloadUI(gameObject.name.GetHashCode());
         SingletonManager.Inst.GetManager<CSceneManager>().LoadScene(2);
