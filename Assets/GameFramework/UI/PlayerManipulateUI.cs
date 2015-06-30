@@ -94,7 +94,7 @@ public class PlayerManipulateUI : UIPanelBase
 
     //private void OnDownJoystick(GameObject go, PointerEventData eventData)
     //{
-    //    Debug.Log("OnDown x:" + go.transform.localPosition.x + "y:" + go.transform.localPosition.y + "z:" + go.transform.localPosition.z);
+    //    SingletonManager.Inst.GetManager<CLogManager>().Log("OnDown x:" + go.transform.localPosition.x + "y:" + go.transform.localPosition.y + "z:" + go.transform.localPosition.z);
     //}
 
     private void OnDragJoystick(GameObject go, PointerEventData eventData)

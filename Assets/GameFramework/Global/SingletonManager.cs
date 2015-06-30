@@ -46,6 +46,7 @@ public class SingletonManager
     protected SingletonManager()
     {
         m_dictManager.Add(typeof(CTaskManager), new CTaskManager());
+        m_dictManager.Add(typeof(CLogManager), new CLogManager());
 
         m_dictManager.Add(typeof(CResourceManager), new CResourceManager());
         m_dictManager.Add(typeof(CConfigManager), new CConfigManager());

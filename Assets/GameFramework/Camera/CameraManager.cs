@@ -26,7 +26,7 @@ public class CCameraManager : Singletone
         m_goMainCamera = GameObject.Find("MainCamera");
         if (m_goMainCamera == null)
         {
-            Debug.LogError("摄像机节点为空");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("摄像机节点为空");
             return false;
         }
 

@@ -21,13 +21,13 @@ public class CSceneManager : Singletone
         m_goSceneRoot = GameObject.Find("Scene");
         if (m_goSceneRoot == null)
         {
-            Debug.LogError("场景节点为空");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("场景节点为空");
             return false;
         }
         m_goWeather = GameObject.Find("Weather");
         if (m_goWeather == null)
         {
-            Debug.LogError("天气节点为空");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("天气节点为空");
             return false;
         }
         return true;
@@ -83,7 +83,7 @@ public class CSceneManager : Singletone
         }
         else
         {
-            Debug.LogError("未能得到场景配置信息,场景编号为" + iSceneId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("未能得到场景配置信息,场景编号为" + iSceneId);
         }
     }
 

@@ -29,6 +29,6 @@ public class EnterGameUI : UIPanelBase
 
     private void OnClickServerBtn(GameObject go, PointerEventData eventData)
     {
-        Debug.Log("您单击服务器端模式");
+        SingletonManager.Inst.GetManager<CLogManager>().Log("您单击服务器端模式");
     } 
 }

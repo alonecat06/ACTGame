@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ActionCommandInput
+public class ActionCommandInput //: ActionCommand
 {
     public CCharacter m_Player;
     public Transform m_transPlayer;
@@ -15,13 +15,13 @@ public class ActionCommandInput
         Animator animator = master.m_goCharacter.GetComponent<Animator>();
         if (animator == null)
         {
-            Debug.LogError("得不到角色的Animator");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的Animator");
             return;
         }
         CharacterController cc = master.m_goCharacter.GetComponent<CharacterController>();
         if (cc == null)
         {
-            Debug.LogError("得不到角色的CharacterController");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的CharacterController");
             return;
         }
         m_LogicController = new ActionLogicController(cc, animator);
@@ -34,13 +34,13 @@ public class ActionCommandInput
         Animator animator = goCharacter.GetComponent<Animator>();
         if (animator == null)
         {
-            Debug.LogError("得不到角色的Animator");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的Animator");
             return;
         }
         CharacterController cc = goCharacter.GetComponent<CharacterController>();
         if (cc == null)
         {
-            Debug.LogError("得不到角色的CharacterController");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的CharacterController");
             return;
         }
         m_LogicController = new ActionLogicController(cc, animator);
@@ -51,13 +51,13 @@ public class ActionCommandInput
     //    Animator animator = GetComponent<Animator>();
     //    if (animator == null)
     //    {
-    //        Debug.LogError("得不到角色的Animator");
+    //        SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的Animator");
     //        return;
     //    }
     //    CharacterController cc = GetComponent<CharacterController>();
     //    if (cc == null)
     //    {
-    //        Debug.LogError("得不到角色的CharacterController");
+    //        SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的CharacterController");
     //        return;
     //    }
     //    m_LogicController = new ActionLogicController(cc, animator);

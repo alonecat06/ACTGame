@@ -30,7 +30,7 @@ public class ClientSelectUI : UIPanelBase
                 psSinglePlayer = temp.GetComponent<PhotoStage>();
                 if (psSinglePlayer == null)
                 {
-                    Debug.LogError("没有得到PhotoStage脚本");
+                    SingletonManager.Inst.GetManager<CLogManager>().LogError("没有得到PhotoStage脚本");
                 }
             }
         }
@@ -111,7 +111,7 @@ public class ClientSelectUI : UIPanelBase
         if (goPlayer == null 
             || goPlayer.GetComponent<CharacterAppearance>() == null)
         {
-            Debug.LogError("不能得到人物外观脚本");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("不能得到人物外观脚本");
             return;
         }
 

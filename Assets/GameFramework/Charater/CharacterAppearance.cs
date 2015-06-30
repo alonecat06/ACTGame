@@ -29,7 +29,7 @@ public class CharacterAppearance : MonoBehaviour {
             || m_goMountLHandShield == null
             || m_goMountLArmShield == null)
         {
-            Debug.LogError("挂载点有误");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("挂载点有误");
         } 
     }
 
@@ -50,7 +50,7 @@ public class CharacterAppearance : MonoBehaviour {
         GameObject goWeapon = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goWeapon == null)
         {
-            Debug.LogError("加载不了武器：" + res.ResId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("加载不了武器：" + res.ResId);
         }
         goWeapon = GameObject.Instantiate(goWeapon);
 
@@ -83,7 +83,7 @@ public class CharacterAppearance : MonoBehaviour {
         GameObject goShield = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goShield == null)
         {
-            Debug.LogError("加载不了主角：" + res.ResId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("加载不了主角：" + res.ResId);
         }
         goShield = GameObject.Instantiate(goShield);
         SetShield(goShield);
@@ -115,7 +115,7 @@ public class CharacterAppearance : MonoBehaviour {
         GameObject goShoulderArmor = (GameObject)res.AssetBundle.LoadAsset(res.ResourceName, typeof(GameObject)); //res.MainAsset as GameObject;
         if (goShoulderArmor == null)
         {
-            Debug.LogError("加载不了ShoulderArm：" + res.ResId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("加载不了ShoulderArm：" + res.ResId);
         }
         goShoulderArmor = GameObject.Instantiate(goShoulderArmor);
 

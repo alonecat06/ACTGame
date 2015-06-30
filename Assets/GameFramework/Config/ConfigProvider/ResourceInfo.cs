@@ -81,7 +81,7 @@ public class ResourceInfoConfigProvider : IConfigProvider
         {
             CResourceInfo resInfo = new CResourceInfo();
             resInfo.uResId = file.GetUIntData(iRow, file.GetColumnIdxByName("ResId"));
-            resInfo.strResName = file.GetContent(iRow, file.GetColumnIdxByName("ResName"));
+            resInfo.strResName = file.GetContent(iRow, file.GetColumnIdxByName("ResName")).ToLower();
             resInfo.eMaintainType = (ResourceMaintainType)file.GetIntData(iRow, file.GetColumnIdxByName("MaintainType"));
             resInfo.iCacheTime = file.GetIntData(iRow, file.GetColumnIdxByName("CacheTime"));
             resInfo.strResPath = file.GetContent(iRow, file.GetColumnIdxByName("ResPath"));

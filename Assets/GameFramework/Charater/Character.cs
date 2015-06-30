@@ -65,7 +65,7 @@ public class CCharacter
 
         if (goCharacter == null)
         {
-            Debug.LogError("加载不了主角：" + res.ResId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("加载不了主角：" + res.ResId);
         }
         goCharacter = GameObject.Instantiate(goCharacter);
 

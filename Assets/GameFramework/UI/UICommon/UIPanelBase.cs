@@ -8,7 +8,7 @@ public class UIPanelBase: MonoBehaviour
     {
         if (!InitializeUI())
         {
-            Debug.LogError("界面初始化失败");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("界面初始化失败");
         }
     }
 

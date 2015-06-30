@@ -22,7 +22,7 @@ public class CUIManager : Singletone
         m_uiRoot = GameObject.Find("UIRoot");
         if (m_uiRoot == null)
         {
-            Debug.LogError("界面根节点为空");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("界面根节点为空");
             return false;
         }
         return true;

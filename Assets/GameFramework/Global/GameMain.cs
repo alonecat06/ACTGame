@@ -18,7 +18,7 @@ public class GameMain : MonoBehaviour
     {
         if (m_uiRoot == null)
         {
-            Debug.LogError("UI摄像机为空，严重错误");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("UI摄像机为空，严重错误");
         }
 
         GameObject goLoadingUI = GameObject.Find("goLoadingUI");
@@ -29,6 +29,9 @@ public class GameMain : MonoBehaviour
 
         //管理类初始化
         SingletonManager.Inst.Initialize(this);
+
+        SingletonManager.Inst.GetManager<CLogManager>().Log(Application.platform);
+
         //显示加载进度画面
         OpenLoadingAnimation(LoadAnimation.LoadAnimation_WholeScreen);
     }

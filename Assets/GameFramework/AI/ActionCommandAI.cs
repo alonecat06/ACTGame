@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ActionCommandAI : MonoBehaviour
+public class ActionCommandAI //: ActionCommand
 {
     private CCharacter m_Character;
 
@@ -12,13 +12,13 @@ public class ActionCommandAI : MonoBehaviour
 //        Animator animator = GetComponent<Animator>();
 //        if (animator == null)
 //        {
-//            Debug.LogError("得不到角色的Animator");
+//            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的Animator");
 //            return;
 //        }
 //        CharacterController cc = GetComponent<CharacterController>();
 //        if (cc == null)
 //        {
-//            Debug.LogError("得不到角色的CharacterController");
+//            SingletonManager.Inst.GetManager<CLogManager>().LogError("得不到角色的CharacterController");
 //            return;
 //        }
 //        m_LogicController = new ActionLogicController(cc, animator);

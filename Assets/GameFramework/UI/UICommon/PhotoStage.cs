@@ -14,7 +14,7 @@ class PhotoStage : MonoBehaviour
         m_goCharaterPos = GameObject.Find("goPlayerStage");
         if (m_goCharaterPos == null)
         {
-            Debug.LogError("没有找到拍照点站位");
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("没有找到拍照点站位");
         }
     }
 
@@ -46,7 +46,7 @@ class PhotoStage : MonoBehaviour
 
         if (goCharacter == null)
         {
-            Debug.LogError("加载不了主角：" + res.ResId);
+            SingletonManager.Inst.GetManager<CLogManager>().LogError("加载不了主角：" + res.ResId);
         } 
         goCharacter = GameObject.Instantiate(goCharacter);
 
