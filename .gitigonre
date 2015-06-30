@@ -1,0 +1,19 @@
+$ cat .gitignore
+/obj/*
+/Temp/*
+/Assets/ExportedAssets/Character/*
+/Assets/ExportedAssets/Config/*
+/Assets/ExportedAssets/Item/*
+/Assets/ExportedAssets/Scene/*
+/Assets/ExportedAssets/UI/*
+/Assets/ExportedAssets/*
+!/Assets/ExportedAssets/ACTGame.unity
+!/Assets/ExportedAssets/ACTGame.unity.meta
+!/Assets/ExportedAssets/crossdomain.xml
+!/Assets/ExportedAssets/crossdomain.xml.meta
+/Assets/StreamingAssets/Character/*
+/Assets/StreamingAssets/Config/*
+/Assets/StreamingAssets/Item/*
+/Assets/StreamingAssets/Scene/*
+/Assets/StreamingAssets/UI/*
+/Assets/StreamingAssets/*

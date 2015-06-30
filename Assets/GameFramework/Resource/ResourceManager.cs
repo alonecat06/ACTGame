@@ -21,7 +21,7 @@ class CResourceManager : Singletone
     //是否存在本地资源
     private bool m_bNoLocalRes;
     //只使用本地资源(没有搭建资源服务器时供Android使用)
-    private bool m_bOnlyLocalRes = true;
+    private bool m_bOnlyLocalRes = false;
 
     private ResourceInfoConfigProvider cpResInfo;
 

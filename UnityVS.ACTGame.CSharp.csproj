@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BEEF6D01-13DC-4A72-1903-191251F658AB}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.0.0f4</UnityVersion>
@@ -54,14 +52,16 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GameFramework\AI\ActionCommandAI.cs" />
+    <Compile Include="Assets\GameFramework\AI\ActionCommandFlockAI.cs" />
     <Compile Include="Assets\GameFramework\Camera\CameraManager.cs" />
     <Compile Include="Assets\GameFramework\Camera\SimpleRpgCamera.cs" />
     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionAnimationController.cs" />
-    <Compile Include="Assets\GameFramework\AI\ActionCommandAI.cs" />
-    <Compile Include="Assets\GameFramework\AI\ActionCommandFlockAI.cs" />
-    <Compile Include="Assets\GameFramework\Input\ActionCommandInput.cs" />
     <Compile Include="Assets\GameFramework\Charater\ActionCommand\ActionLogicController.cs" />
     <Compile Include="Assets\GameFramework\Charater\Character.cs" />
     <Compile Include="Assets\GameFramework\Charater\CharacterAppearance.cs" />
@@ -78,7 +78,9 @@
     <Compile Include="Assets\GameFramework\Global\GameMain.cs" />
     <Compile Include="Assets\GameFramework\Global\GlobalDef.cs" />
     <Compile Include="Assets\GameFramework\Global\SingletonManager.cs" />
+    <Compile Include="Assets\GameFramework\Input\ActionCommandInput.cs" />
     <Compile Include="Assets\GameFramework\Input\InputManager.cs" />
+    <Compile Include="Assets\GameFramework\Log\LogManager.cs" />
     <Compile Include="Assets\GameFramework\Resource\ModelManager.cs" />
     <Compile Include="Assets\GameFramework\Resource\Resource.cs" />
     <Compile Include="Assets\GameFramework\Resource\ResourceManager.cs" />

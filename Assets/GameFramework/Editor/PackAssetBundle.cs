@@ -37,8 +37,14 @@ public class PackAssetBundle : Editor
     {
         File.Delete(Path);
     }
-    static void DeleteDirectory(string strPath, bool bKeepDirectory) 
+    static void DeleteDirectory(string strPath, bool bKeepDirectory)
     {
+        //如果不存在就创建文件路径
+        if (Directory.Exists(strPath) == false)
+        {
+            Directory.CreateDirectory(strPath);
+        }
+
         //删除这个目录下的所有子目录
         if (Directory.GetDirectories(strPath).Length > 0)
         {
